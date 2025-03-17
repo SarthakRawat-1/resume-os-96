@@ -7,7 +7,7 @@ const BootSequence = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-system-darkgray to-black flex flex-col items-center justify-center p-8">
-      <div className="w-full max-w-3xl mx-auto terminal-body">
+      <div className="w-full max-w-3xl mx-auto">
         <div className="mb-8">
           <div className="text-center mb-6">
             <h1 className="text-5xl font-bold text-terminal-success mb-2 tracking-wider">ShogunOS</h1>
@@ -27,7 +27,7 @@ const BootSequence = () => {
           </div>
         </div>
         
-        <div className="font-mono text-sm bg-terminal-background/40 rounded-lg p-4 backdrop-blur-md border border-terminal-muted/20">
+        <div className="font-mono text-sm">
           {bootMessages.map((message, index) => (
             <div 
               key={index}

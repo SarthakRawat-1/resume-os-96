@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -38,7 +39,7 @@ const Desktop = () => {
         
         {/* Shogun text in background */}
         <div className="absolute flex items-center justify-center w-full h-full pointer-events-none">
-          <h1 className="text-[25vw] font-bold text-white/5 select-none tracking-tighter">
+          <h1 className="text-[20vw] font-bold text-white/5 select-none tracking-widest">
             SHOGUN
           </h1>
         </div>
