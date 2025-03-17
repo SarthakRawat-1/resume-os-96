@@ -12,6 +12,7 @@ interface Apps {
   memoryMap: AppState;
   contactMe: AppState;
   activityLogs: AppState;
+  readme: AppState;
 }
 
 interface SystemContextType {
@@ -44,6 +45,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     memoryMap: 'closed',
     contactMe: 'closed',
     activityLogs: 'closed',
+    readme: 'closed',
   });
 
   useEffect(() => {
