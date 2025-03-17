@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
+import { toast } from 'sonner';
 
 type SystemState = 'boot' | 'login' | 'desktop';
 type AppState = 'closed' | 'minimized' | 'open';
@@ -163,32 +164,37 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const openApp = (app: keyof Apps) => {
     console.log(`Opening app: ${app}`);
-    playSound('CLICK');
     
     setApps(prevApps => {
-      return {
-        ...prevApps,
-        [app]: 'open'
-      };
+      const newApps = { ...prevApps };
+      newApps[app] = 'open';
+      console.log("New apps state:", newApps);
+      return newApps;
     });
+
+    toast.success(`Opening ${app}`);
   };
 
   const closeApp = (app: keyof Apps) => {
     console.log(`Closing app: ${app}`);
     playSound('CLICK');
-    setApps(prevApps => ({
-      ...prevApps,
-      [app]: 'closed'
-    }));
+    
+    setApps(prevApps => {
+      const newApps = { ...prevApps };
+      newApps[app] = 'closed';
+      return newApps;
+    });
   };
 
   const minimizeApp = (app: keyof Apps) => {
     console.log(`Minimizing app: ${app}`);
     playSound('CLICK');
-    setApps(prevApps => ({
-      ...prevApps,
-      [app]: 'minimized'
-    }));
+    
+    setApps(prevApps => {
+      const newApps = { ...prevApps };
+      newApps[app] = 'minimized';
+      return newApps;
+    });
   };
 
   const executeCommand = (command: string): string => {

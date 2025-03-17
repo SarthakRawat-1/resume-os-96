@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -25,6 +24,7 @@ const Desktop = () => {
   const { apps, openApp } = useSystem();
   
   const handleOpenApp = (app: string) => {
+    console.log(`Attempting to open app: ${app}`);
     playSound('CLICK');
     openApp(app as any);
   };
@@ -128,52 +128,52 @@ const Desktop = () => {
         </div>
       </div>
       
-      {/* Application windows - fixed positioning and z-index */}
-      <div className="fixed inset-0 z-20 pointer-events-none">
+      {/* Application windows */}
+      <div className="app-windows">
         {apps.terminal === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <TerminalComponent />
           </div>
         )}
         
         {apps.fileExplorer === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <FileSystem />
           </div>
         )}
         
         {apps.processManager === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <ProcessManager />
           </div>
         )}
         
         {apps.sysConfig === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <SystemConfig />
           </div>
         )}
         
         {apps.memoryMap === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <MemoryMap />
           </div>
         )}
         
         {apps.contactMe === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <ContactMe />
           </div>
         )}
         
         {apps.activityLogs === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <ActivityLogs />
           </div>
         )}
         
         {apps.readme === 'open' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="fixed inset-0 flex items-center justify-center z-20">
             <ReadmeViewer />
           </div>
         )}
@@ -240,3 +240,4 @@ const Desktop = () => {
 };
 
 export default Desktop;
+
