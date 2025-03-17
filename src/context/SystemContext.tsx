@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 
@@ -165,12 +164,8 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
   const openApp = (app: keyof Apps) => {
     playSound('CLICK');
     setApps(prev => {
-      // Create a new apps state with all apps closed
       const newApps = { ...prev };
-      
-      // Set only the requested app to open
       newApps[app] = 'open';
-      
       return newApps;
     });
   };

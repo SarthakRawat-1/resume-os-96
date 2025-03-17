@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -129,51 +128,51 @@ const Desktop = () => {
       </div>
       
       {/* Application windows */}
-      <div className="app-windows absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+      <div className="app-windows absolute inset-0 z-20">
         {apps.terminal === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <TerminalComponent />
           </div>
         )}
         
         {apps.fileExplorer === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <FileSystem />
           </div>
         )}
         
         {apps.processManager === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <ProcessManager />
           </div>
         )}
         
         {apps.sysConfig === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <SystemConfig />
           </div>
         )}
         
         {apps.memoryMap === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <MemoryMap />
           </div>
         )}
         
         {apps.contactMe === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <ContactMe />
           </div>
         )}
         
         {apps.activityLogs === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <ActivityLogs />
           </div>
         )}
         
         {apps.readme === 'open' && (
-          <div className="window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
             <ReadmeViewer />
           </div>
         )}
@@ -240,3 +239,4 @@ const Desktop = () => {
 };
 
 export default Desktop;
+
