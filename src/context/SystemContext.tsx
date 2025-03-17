@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { initSounds, playSound } from '../utils/sounds';
 
 type SystemState = 'boot' | 'login' | 'desktop';
 type AppState = 'closed' | 'minimized' | 'open';
@@ -11,6 +12,7 @@ interface Apps {
   sysConfig: AppState;
   memoryMap: AppState;
   contactMe: AppState;
+  activityLogs: AppState;
 }
 
 interface SystemContextType {
@@ -42,7 +44,13 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     sysConfig: 'closed',
     memoryMap: 'closed',
     contactMe: 'closed',
+    activityLogs: 'closed',
   });
+
+  // Initialize sound effects when system starts
+  useEffect(() => {
+    initSounds();
+  }, []);
 
   // Virtual file system structure
   const fileSystem = {
@@ -158,6 +166,11 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         'Welcome to ResumeOS v3.5.2',
       ];
 
+      // Play boot sound when boot sequence starts
+      if (bootProgress === 0) {
+        setTimeout(() => playSound('BOOT'), 500);
+      }
+
       const bootInterval = setInterval(() => {
         const progressIncrement = 100 / bootSequence.length;
         
@@ -187,6 +200,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Modified to close all other apps when opening a new one
   const openApp = (app: keyof Apps) => {
+    playSound('CLICK');
     setApps(prev => {
       // Create a new state with all apps closed
       const newState = Object.keys(prev).reduce((acc, key) => {
@@ -201,6 +215,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const closeApp = (app: keyof Apps) => {
+    playSound('CLICK');
     setApps(prev => ({
       ...prev,
       [app]: 'closed',
@@ -208,6 +223,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const minimizeApp = (app: keyof Apps) => {
+    playSound('CLICK');
     setApps(prev => ({
       ...prev,
       [app]: 'minimized',

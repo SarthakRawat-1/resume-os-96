@@ -3,12 +3,14 @@ import React from 'react';
 import { SystemProvider, useSystem } from '../context/SystemContext';
 import BootSequence from '../components/BootSequence';
 import Desktop from '../components/Desktop';
+import { initSounds } from '../utils/sounds';
 
 const Index = () => {
   const [initialized, setInitialized] = React.useState(false);
   
   React.useEffect(() => {
-    // Initialize system
+    // Initialize system and sounds
+    initSounds();
     setInitialized(true);
   }, []);
   
