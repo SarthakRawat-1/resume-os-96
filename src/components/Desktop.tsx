@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -10,7 +11,7 @@ import {
   Mail,
   Activity
 } from 'lucide-react';
-import Terminal as TerminalComponent from './Terminal';
+import TerminalComponent from './Terminal';
 import FileSystem from './FileSystem';
 import ProcessManager from './ProcessManager';
 import SystemConfig from './SystemConfig';
