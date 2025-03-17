@@ -8,6 +8,7 @@ const Terminal = () => {
   const [outputs, setOutputs] = useState<{type: 'command' | 'output', content: string}[]>([
     { type: 'output', content: 'Welcome to ResumeOS Terminal. Type "help" for available commands.' }
   ]);
+  const [hackerMode, setHackerMode] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputsRef = useRef<HTMLDivElement>(null);
   
@@ -22,6 +23,11 @@ const Terminal = () => {
       ...prev, 
       { type: 'command', content: `${currentDirectory} $ ${input}` }
     ]);
+
+    // Check for special commands
+    if (input.trim() === 'hacker_mode') {
+      setHackerMode(true);
+    }
 
     // Execute command and get result
     const result = executeCommand(input);
@@ -56,7 +62,7 @@ const Terminal = () => {
   }, []);
 
   return (
-    <div className="terminal-window w-full max-w-3xl mx-auto h-full max-h-[80vh] flex flex-col">
+    <div className={`terminal-window w-full max-w-3xl mx-auto h-full max-h-[80vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`}>
       <div className="terminal-header">
         <div className="flex space-x-2">
           <button 
@@ -76,14 +82,14 @@ const Terminal = () => {
           </button>
         </div>
         <div className="terminal-title flex items-center">
-          <TerminalIcon className="w-4 h-4 mr-2" /> Terminal
+          <TerminalIcon className="w-4 h-4 mr-2" /> Terminal {hackerMode && '(Hacker Mode)'}
         </div>
         <div className="w-16"></div> {/* Spacer for symmetry */}
       </div>
       
       <div 
         ref={outputsRef}
-        className="terminal-body flex-1 overflow-auto"
+        className={`terminal-body flex-1 overflow-auto ${hackerMode ? 'bg-black text-green-500' : ''}`}
       >
         {outputs.map((output, index) => (
           <div key={index} className={output.type === 'command' ? 'terminal-command' : 'terminal-output'}>
@@ -100,7 +106,7 @@ const Terminal = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-transparent outline-none border-none terminal-command cursor text-terminal-text"
+            className={`flex-1 bg-transparent outline-none border-none terminal-command cursor text-terminal-text ${hackerMode ? 'text-green-500' : ''}`}
             autoFocus
           />
         </form>

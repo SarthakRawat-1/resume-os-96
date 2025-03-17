@@ -6,6 +6,7 @@ import FileSystem from './FileSystem';
 import ProcessManager from './ProcessManager';
 import SystemConfig from './SystemConfig';
 import MemoryMap from './MemoryMap';
+import ContactMe from './ContactMe';
 
 import { 
   Terminal as TerminalIcon, 
@@ -13,7 +14,8 @@ import {
   ActivitySquare, 
   Settings, 
   MemoryStick,
-  User
+  User,
+  Mail
 } from 'lucide-react';
 
 const Desktop = () => {
@@ -25,6 +27,7 @@ const Desktop = () => {
     { id: 'processManager', name: 'Processes', icon: <ActivitySquare className="w-10 h-10 mb-2" /> },
     { id: 'sysConfig', name: 'Config', icon: <Settings className="w-10 h-10 mb-2" /> },
     { id: 'memoryMap', name: 'Memory', icon: <MemoryStick className="w-10 h-10 mb-2" /> },
+    { id: 'contactMe', name: 'Contact', icon: <Mail className="w-10 h-10 mb-2" /> },
   ];
 
   return (
@@ -56,6 +59,7 @@ const Desktop = () => {
         {apps.processManager === 'open' && <ProcessManager />}
         {apps.sysConfig === 'open' && <SystemConfig />}
         {apps.memoryMap === 'open' && <MemoryMap />}
+        {apps.contactMe === 'open' && <ContactMe />}
         
         {Object.values(apps).every(app => app !== 'open') && (
           <div className="text-center animate-fade-in-up">

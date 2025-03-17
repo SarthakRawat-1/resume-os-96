@@ -10,6 +10,7 @@ interface Apps {
   processManager: AppState;
   sysConfig: AppState;
   memoryMap: AppState;
+  contactMe: AppState;
 }
 
 interface SystemContextType {
@@ -40,6 +41,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     processManager: 'closed',
     sysConfig: 'closed',
     memoryMap: 'closed',
+    contactMe: 'closed',
   });
 
   // Virtual file system structure
@@ -54,7 +56,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/home/user': {
       type: 'dir',
-      content: ['about.txt', 'contact.txt', 'skills.txt'],
+      content: ['about.txt', 'contact.txt', 'skills.txt', 'whoami.txt', 'resume.txt'],
     },
     '/projects': {
       type: 'dir',
@@ -70,7 +72,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/etc': {
       type: 'dir',
-      content: ['resume.conf', 'changelog.md'],
+      content: ['resume.conf', 'changelog.md', 'easter_eggs.txt'],
     },
     '/home/user/about.txt': {
       type: 'file',
@@ -78,11 +80,19 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/home/user/contact.txt': {
       type: 'file',
-      content: 'Email: user@example.com\nGitHub: github.com/username\nLinkedIn: linkedin.com/in/username',
+      content: 'Email: user@example.com\nGitHub: github.com/username\nLinkedIn: linkedin.com/in/username\nTwitter: twitter.com/username',
     },
     '/home/user/skills.txt': {
       type: 'file',
       content: '- C/C++ Programming\n- Systems Architecture\n- Kernel Development\n- Performance Optimization\n- Embedded Systems',
+    },
+    '/home/user/whoami.txt': {
+      type: 'file',
+      content: 'John Doe - Senior Systems Engineer\n\nI\'m a passionate low-level programmer with expertise in operating systems, embedded development, and performance optimization. With over 7 years of experience, I specialize in making computers run faster, more efficiently, and more reliably.',
+    },
+    '/home/user/resume.txt': {
+      type: 'file',
+      content: '# JOHN DOE\nSenior Systems Engineer\n\n## EXPERIENCE\n- 2020-2023: Senior Systems Engineer at Tech Corp\n- 2018-2020: Software Developer at Startup Inc\n- 2016-2018: Junior Developer at Code Solutions\n\n## EDUCATION\n- Master of Science in Computer Science\n- Bachelor of Science in Computer Engineering\n\n## SKILLS\n- Systems Programming (C/C++, Rust)\n- Kernel Development\n- Performance Optimization\n- Embedded Systems\n- Low-level Debugging\n\n## CONTACT\nEmail: john.doe@example.com\nGitHub: github.com/johndoe\nLinkedIn: linkedin.com/in/johndoe',
     },
     '/projects/project1.md': {
       type: 'file',
@@ -123,6 +133,10 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     '/etc/changelog.md': {
       type: 'file',
       content: '## v3.5.2 (2023)\n- Added expertise in Rust programming\n- Improved system architecture skills\n- Advanced knowledge of RTOS concepts\n\n## v3.0.0 (2022)\n- Mastered kernel development\n- Enhanced debugging capabilities\n- Added cloud infrastructure knowledge\n\n## v2.0.0 (2020)\n- Upgraded programming skills\n- Added experience with distributed systems\n- Improved algorithm optimization techniques',
+    },
+    '/etc/easter_eggs.txt': {
+      type: 'file',
+      content: 'Congratulations! You found a hidden file.\n\nTry these secret commands in the terminal:\n- sudo elevate\n- hacker_mode\n- play_music\n- rm -rf /\n\nEach one has a special surprise!',
     },
   };
 
@@ -171,11 +185,19 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [systemState]);
 
+  // Modified to close all other apps when opening a new one
   const openApp = (app: keyof Apps) => {
-    setApps(prev => ({
-      ...prev,
-      [app]: 'open',
-    }));
+    setApps(prev => {
+      // Create a new state with all apps closed
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key as keyof Apps] = 'closed';
+        return acc;
+      }, {} as Apps);
+      
+      // Open only the requested app
+      newState[app] = 'open';
+      return newState;
+    });
   };
 
   const closeApp = (app: keyof Apps) => {
@@ -192,7 +214,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }));
   };
 
-  // Simple command execution
+  // Enhanced command execution with more interactive commands
   const executeCommand = (command: string): string => {
     setCommandHistory(prev => [...prev, command]);
     
@@ -244,11 +266,35 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       case 'pwd':
         return currentDirectory;
         
+      case 'whoami':
+        const whoamiFile = fileSystem['/home/user/whoami.txt'];
+        return whoamiFile.content;
+        
       case 'help':
-        return 'Available commands:\n- ls [path]: List directory contents\n- cd [path]: Change directory\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- help: Display this help message';
+        return 'Available commands:\n- ls [path]: List directory contents\n- cd [path]: Change directory\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- whoami: Display user information\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- help: Display this help message';
         
       case 'clear':
         return 'CLEAR';
+        
+      case 'sudo':
+        if (args[0] === 'elevate') {
+          return '🔒 Elevated privileges granted.\nWelcome to the secret developer mode. This is where I keep my most interesting projects and personal notes.\n\nAs a systems engineer, I\'ve always been fascinated by the inner workings of computers. My passion is optimizing and re-engineering systems that others consider "good enough."\n\nIf you\'re interested in discussing any opportunities or collaborations, please contact me directly using the ContactMe app on the desktop.';
+        }
+        return 'sudo: You need to be root to perform this action. Just kidding, this is just a resume website!';
+        
+      case 'hacker_mode':
+        // In real implementation, this would trigger a CSS class change
+        return '🖥️ Hacker mode activated.\nMatrix-style theme enabled. Welcome to the matrix, Neo.';
+        
+      case 'play_music':
+        // In real implementation, this would trigger audio playback
+        return '🎵 Now playing: "Bits & Bytes" - A chiptune soundtrack\n\nControls:\n- pause: Pause playback\n- stop: Stop playback\n- volume [0-10]: Adjust volume';
+        
+      case 'rm':
+        if (args[0] === '-rf' && args[1] === '/') {
+          return 'KERNEL_PANIC\n\n🚫 Critical system error detected!\nSystem files deletion attempted\n\n...Just kidding! Your resume data is safe. This is just a fun easter egg. I\'d never let you delete my resume that easily! 😉\n\nSystem recovered successfully.';
+        }
+        return `rm: Cannot remove '${args.join(' ')}': Permission denied`;
         
       default:
         return `command not found: ${cmd}`;
