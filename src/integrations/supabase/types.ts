@@ -9,57 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      github_activity: {
-        Row: {
-          description: string
-          id: string
-          repo: string
-          time: string
-          type: string
-        }
-        Insert: {
-          description: string
-          id?: string
-          repo: string
-          time?: string
-          type: string
-        }
-        Update: {
-          description?: string
-          id?: string
-          repo?: string
-          time?: string
-          type?: string
-        }
-        Relationships: []
-      }
-      leetcode_activity: {
-        Row: {
-          difficulty: string
-          id: string
-          language: string
-          problem: string
-          status: string
-          time: string
-        }
-        Insert: {
-          difficulty: string
-          id?: string
-          language: string
-          problem: string
-          status: string
-          time?: string
-        }
-        Update: {
-          difficulty?: string
-          id?: string
-          language?: string
-          problem?: string
-          status?: string
-          time?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never

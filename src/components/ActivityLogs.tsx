@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { fetchGitHubActivity, fetchLeetCodeActivity, GitHubActivity, LeetCodeActivity } from '../utils/activityLogs';
 import { X, Minus, Square, Activity, Github, Code } from 'lucide-react';
-import { playSound } from '../utils/sounds';
 
 const ActivityLogs = () => {
   const [activeTab, setActiveTab] = useState<'github' | 'leetcode'>('github');
@@ -44,19 +43,13 @@ const ActivityLogs = () => {
         <div className="flex space-x-2">
           <button 
             className="window-button window-close flex items-center justify-center"
-            onClick={() => {
-              playSound('CLICK');
-              closeApp('activityLogs');
-            }}
+            onClick={() => closeApp('activityLogs')}
           >
             <X className="w-2 h-2 opacity-0 group-hover:opacity-100" />
           </button>
           <button 
             className="window-button window-minimize"
-            onClick={() => {
-              playSound('CLICK');
-              minimizeApp('activityLogs');
-            }}
+            onClick={() => minimizeApp('activityLogs')}
           >
             <Minus className="w-2 h-2 opacity-0 group-hover:opacity-100" />
           </button>

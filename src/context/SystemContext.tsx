@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 import { toast } from 'sonner';
@@ -277,10 +278,12 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         return `rm: Cannot remove '${args.join(' ')}': Permission denied`;
         
       case 'github_activity':
-        return 'Fetching GitHub activity...';
+        const githubFile = fileSystem['/logs/github_activity.log'];
+        return githubFile.content;
         
       case 'leetcode_activity':
-        return 'Fetching LeetCode activity...';
+        const leetcodeFile = fileSystem['/logs/leetcode_activity.log'];
+        return leetcodeFile.content;
         
       default:
         return `command not found: ${cmd}`;
