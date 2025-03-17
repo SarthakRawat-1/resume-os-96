@@ -1,120 +1,214 @@
-
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
-import Terminal from './Terminal';
+import { playSound } from '../utils/sounds';
+import { 
+  Terminal, 
+  FolderOpen, 
+  Cpu, 
+  Settings, 
+  Map, 
+  Mail,
+  Activity
+} from 'lucide-react';
+import Terminal as TerminalComponent from './Terminal';
 import FileSystem from './FileSystem';
 import ProcessManager from './ProcessManager';
 import SystemConfig from './SystemConfig';
 import MemoryMap from './MemoryMap';
 import ContactMe from './ContactMe';
-
-import { 
-  Terminal as TerminalIcon, 
-  Folder, 
-  ActivitySquare, 
-  Settings, 
-  MemoryStick,
-  User,
-  Mail
-} from 'lucide-react';
+import ActivityLogs from './ActivityLogs';
 
 const Desktop = () => {
   const { apps, openApp } = useSystem();
   
-  const icons = [
-    { id: 'terminal', name: 'Terminal', icon: <TerminalIcon className="w-10 h-10 mb-2" /> },
-    { id: 'fileExplorer', name: 'Files', icon: <Folder className="w-10 h-10 mb-2" /> },
-    { id: 'processManager', name: 'Processes', icon: <ActivitySquare className="w-10 h-10 mb-2" /> },
-    { id: 'sysConfig', name: 'Config', icon: <Settings className="w-10 h-10 mb-2" /> },
-    { id: 'memoryMap', name: 'Memory', icon: <MemoryStick className="w-10 h-10 mb-2" /> },
-    { id: 'contactMe', name: 'Contact', icon: <Mail className="w-10 h-10 mb-2" /> },
-  ];
-
+  const handleOpenApp = (app: string) => {
+    playSound('CLICK');
+    openApp(app as any);
+  };
+  
   return (
-    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-system-darkgray to-black relative">
+    <div className="desktop-container h-screen w-screen overflow-hidden bg-system-darkgray relative">
+      {/* Desktop background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-system-darkgray to-system-gray z-0">
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+      </div>
+      
       {/* Desktop icons */}
-      <div className="absolute top-4 left-4 space-y-6">
-        {icons.map((icon, index) => (
-          <div 
-            key={icon.id}
-            className="desktop-icon window-appear"
-            style={{ '--index': index } as React.CSSProperties}
-            onClick={() => openApp(icon.id as keyof typeof apps)}
-          >
-            {icon.icon}
-            <span>{icon.name}</span>
+      <div className="desktop-icons absolute top-4 left-4 space-y-6 z-10">
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('terminal')}
+          style={{ '--index': 0 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Terminal className="w-8 h-8 text-terminal-accent" />
           </div>
-        ))}
-      </div>
-      
-      {/* Clock */}
-      <div className="absolute top-4 right-4 text-white/80 text-sm">
-        <Clock />
-      </div>
-      
-      {/* Active apps */}
-      <div className="flex items-center justify-center min-h-screen p-4">
-        {apps.terminal === 'open' && <Terminal />}
-        {apps.fileExplorer === 'open' && <FileSystem />}
-        {apps.processManager === 'open' && <ProcessManager />}
-        {apps.sysConfig === 'open' && <SystemConfig />}
-        {apps.memoryMap === 'open' && <MemoryMap />}
-        {apps.contactMe === 'open' && <ContactMe />}
+          <span className="text-white drop-shadow-md">Terminal</span>
+        </div>
         
-        {Object.values(apps).every(app => app !== 'open') && (
-          <div className="text-center animate-fade-in-up">
-            <User className="w-20 h-20 mx-auto mb-4 text-terminal-accent opacity-50" />
-            <h1 className="text-2xl font-bold mb-2">Welcome to ResumeOS</h1>
-            <p className="text-terminal-muted mb-6">Click on any icon to get started</p>
-            
-            <div className="flex flex-wrap justify-center gap-4">
-              {icons.map((icon, index) => (
-                <button 
-                  key={icon.id}
-                  className="flex items-center px-4 py-2 bg-system-gray/50 hover:bg-system-gray rounded-md transition-colors"
-                  onClick={() => openApp(icon.id as keyof typeof apps)}
-                >
-                  {React.cloneElement(icon.icon, { className: 'w-5 h-5 mr-2' })}
-                  <span>{icon.name}</span>
-                </button>
-              ))}
-            </div>
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('fileExplorer')}
+          style={{ '--index': 1 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <FolderOpen className="w-8 h-8 text-terminal-warning" />
+          </div>
+          <span className="text-white drop-shadow-md">Files</span>
+        </div>
+        
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('processManager')}
+          style={{ '--index': 2 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Cpu className="w-8 h-8 text-terminal-success" />
+          </div>
+          <span className="text-white drop-shadow-md">Processes</span>
+        </div>
+        
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('sysConfig')}
+          style={{ '--index': 3 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Settings className="w-8 h-8 text-terminal-text" />
+          </div>
+          <span className="text-white drop-shadow-md">Settings</span>
+        </div>
+        
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('memoryMap')}
+          style={{ '--index': 4 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Map className="w-8 h-8 text-terminal-error" />
+          </div>
+          <span className="text-white drop-shadow-md">Memory</span>
+        </div>
+        
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('contactMe')}
+          style={{ '--index': 5 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Mail className="w-8 h-8 text-terminal-muted" />
+          </div>
+          <span className="text-white drop-shadow-md">Contact</span>
+        </div>
+        
+        <div 
+          className="desktop-icon"
+          onClick={() => handleOpenApp('activityLogs')}
+          style={{ '--index': 6 } as React.CSSProperties}
+        >
+          <div className="w-12 h-12 flex items-center justify-center bg-terminal-background rounded-md mb-1">
+            <Activity className="w-8 h-8 text-terminal-accent" />
+          </div>
+          <span className="text-white drop-shadow-md">Activity</span>
+        </div>
+      </div>
+      
+      {/* Application windows */}
+      <div className="app-windows absolute inset-0 flex items-center justify-center z-20">
+        {apps.terminal === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <TerminalComponent />
+          </div>
+        )}
+        
+        {apps.fileExplorer === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <FileSystem />
+          </div>
+        )}
+        
+        {apps.processManager === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <ProcessManager />
+          </div>
+        )}
+        
+        {apps.sysConfig === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <SystemConfig />
+          </div>
+        )}
+        
+        {apps.memoryMap === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <MemoryMap />
+          </div>
+        )}
+        
+        {apps.contactMe === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <ContactMe />
+          </div>
+        )}
+        
+        {apps.activityLogs === 'open' && (
+          <div className="window-appear" style={{ '--index': 0 } as React.CSSProperties}>
+            <ActivityLogs />
           </div>
         )}
       </div>
       
-      {/* Dock */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-        <div className="bg-system-gray/30 backdrop-blur-lg rounded-xl px-2 py-1 flex items-center space-x-1 border border-white/10">
-          {icons.map((icon, index) => (
-            <button 
-              key={icon.id}
-              className={`p-2 rounded-lg transition-all hover:bg-white/10 ${
-                apps[icon.id as keyof typeof apps] === 'open' ? 'bg-white/10' : ''
-              }`}
-              onClick={() => openApp(icon.id as keyof typeof apps)}
-            >
-              {React.cloneElement(icon.icon, { className: 'w-6 h-6' })}
-            </button>
-          ))}
+      {/* Taskbar */}
+      <div className="taskbar absolute bottom-0 left-0 right-0 h-12 bg-system-gray/80 backdrop-blur-md border-t border-system-lightgray/50 flex items-center px-4 z-30">
+        <div className="flex space-x-2">
+          {apps.terminal === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent">
+              <Terminal className="w-5 h-5 text-terminal-accent" />
+            </div>
+          )}
+          
+          {apps.fileExplorer === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-warning">
+              <FolderOpen className="w-5 h-5 text-terminal-warning" />
+            </div>
+          )}
+          
+          {apps.processManager === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-success">
+              <Cpu className="w-5 h-5 text-terminal-success" />
+            </div>
+          )}
+          
+          {apps.sysConfig === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-text">
+              <Settings className="w-5 h-5 text-terminal-text" />
+            </div>
+          )}
+          
+          {apps.memoryMap === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-error">
+              <Map className="w-5 h-5 text-terminal-error" />
+            </div>
+          )}
+          
+          {apps.contactMe === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-muted">
+              <Mail className="w-5 h-5 text-terminal-muted" />
+            </div>
+          )}
+          
+          {apps.activityLogs === 'open' && (
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent">
+              <Activity className="w-5 h-5 text-terminal-accent" />
+            </div>
+          )}
+        </div>
+        
+        <div className="ml-auto text-xs text-terminal-muted">
+          ResumeOS v3.5.2 • {new Date().toLocaleTimeString()}
         </div>
       </div>
-    </div>
-  );
-};
-
-// Clock component
-const Clock = () => {
-  const [time, setTime] = React.useState(new Date());
-  
-  React.useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  
-  return (
-    <div className="bg-system-gray/30 backdrop-blur-lg px-3 py-1 rounded-md border border-white/10">
-      {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
     </div>
   );
 };

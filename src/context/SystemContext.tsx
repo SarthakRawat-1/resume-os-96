@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 
@@ -47,12 +46,10 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     activityLogs: 'closed',
   });
 
-  // Initialize sound effects when system starts
   useEffect(() => {
     initSounds();
   }, []);
 
-  // Virtual file system structure
   const fileSystem = {
     '/': {
       type: 'dir',
@@ -76,7 +73,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/logs': {
       type: 'dir',
-      content: ['experience.log', 'achievements.log'],
+      content: ['experience.log', 'achievements.log', 'github_activity.log', 'leetcode_activity.log'],
     },
     '/etc': {
       type: 'dir',
@@ -88,67 +85,32 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/home/user/contact.txt': {
       type: 'file',
-      content: 'Email: user@example.com\nGitHub: github.com/username\nLinkedIn: linkedin.com/in/username\nTwitter: twitter.com/username',
+      content: 'Email: sarthakrawat525@gmail.com\nGitHub: github.com/username\nLinkedIn: linkedin.com/in/username\nTwitter: twitter.com/username',
     },
-    '/home/user/skills.txt': {
+    '/logs/github_activity.log': {
       type: 'file',
-      content: '- C/C++ Programming\n- Systems Architecture\n- Kernel Development\n- Performance Optimization\n- Embedded Systems',
+      content: `# GitHub Activity Log
+
+[${new Date().toISOString()}] PushEvent on resume-os: Added sound effects and music player to ResumeOS
+[${new Date(Date.now() - 3600000).toISOString()}] CreateEvent on low-level-optimizations: Created a new repository for performance optimization techniques
+[${new Date(Date.now() - 7200000).toISOString()}] PullRequestEvent on kernel-experiments: Merged PR: Fixed memory leak in custom allocator
+
+NOTE: These are mock entries. Real data will be fetched from GitHub API once backend integration is complete.
+Contact: sarthakrawat525@gmail.com for API setup.`,
     },
-    '/home/user/whoami.txt': {
+    '/logs/leetcode_activity.log': {
       type: 'file',
-      content: 'John Doe - Senior Systems Engineer\n\nI\'m a passionate low-level programmer with expertise in operating systems, embedded development, and performance optimization. With over 7 years of experience, I specialize in making computers run faster, more efficiently, and more reliably.',
-    },
-    '/home/user/resume.txt': {
-      type: 'file',
-      content: '# JOHN DOE\nSenior Systems Engineer\n\n## EXPERIENCE\n- 2020-2023: Senior Systems Engineer at Tech Corp\n- 2018-2020: Software Developer at Startup Inc\n- 2016-2018: Junior Developer at Code Solutions\n\n## EDUCATION\n- Master of Science in Computer Science\n- Bachelor of Science in Computer Engineering\n\n## SKILLS\n- Systems Programming (C/C++, Rust)\n- Kernel Development\n- Performance Optimization\n- Embedded Systems\n- Low-level Debugging\n\n## CONTACT\nEmail: john.doe@example.com\nGitHub: github.com/johndoe\nLinkedIn: linkedin.com/in/johndoe',
-    },
-    '/projects/project1.md': {
-      type: 'file',
-      content: '# Custom Operating System\nDeveloped a minimalist OS kernel with a focus on performance and security.',
-    },
-    '/projects/project2.md': {
-      type: 'file',
-      content: '# Memory Manager\nImplemented an efficient memory allocation system that reduced fragmentation by 40%.',
-    },
-    '/projects/project3.md': {
-      type: 'file',
-      content: '# Low-level Graphics Library\nCreated a hardware-accelerated graphics library for resource-constrained systems.',
-    },
-    '/docs/education.pdf': {
-      type: 'file',
-      content: 'Bachelor of Science in Computer Engineering\nMaster of Science in Computer Science',
-    },
-    '/docs/certifications.pdf': {
-      type: 'file',
-      content: '- AWS Certified Solutions Architect\n- Linux Professional Institute Certification\n- CompTIA Security+',
-    },
-    '/docs/resume.pdf': {
-      type: 'file',
-      content: 'A comprehensive resume detailing my experience, skills, and achievements.',
-    },
-    '/logs/experience.log': {
-      type: 'file',
-      content: '[2020-2023] Senior Systems Engineer at Tech Corp\n[2018-2020] Software Developer at Startup Inc\n[2016-2018] Junior Developer at Code Solutions',
-    },
-    '/logs/achievements.log': {
-      type: 'file',
-      content: '- Reduced system boot time by 30%\n- Optimized memory usage by 25%\n- Contributed to open-source kernel projects\n- Published research on real-time systems',
-    },
-    '/etc/resume.conf': {
-      type: 'file',
-      content: 'NAME=John Doe\nROLE=Systems Engineer\nLOCATION=San Francisco, CA\nAVAILABILITY=Available for hire\nPREFERRED_STACK=C/C++, Rust, Assembly\nINTERESTS=Kernel Development, Embedded Systems, Performance Optimization',
-    },
-    '/etc/changelog.md': {
-      type: 'file',
-      content: '## v3.5.2 (2023)\n- Added expertise in Rust programming\n- Improved system architecture skills\n- Advanced knowledge of RTOS concepts\n\n## v3.0.0 (2022)\n- Mastered kernel development\n- Enhanced debugging capabilities\n- Added cloud infrastructure knowledge\n\n## v2.0.0 (2020)\n- Upgraded programming skills\n- Added experience with distributed systems\n- Improved algorithm optimization techniques',
-    },
-    '/etc/easter_eggs.txt': {
-      type: 'file',
-      content: 'Congratulations! You found a hidden file.\n\nTry these secret commands in the terminal:\n- sudo elevate\n- hacker_mode\n- play_music\n- rm -rf /\n\nEach one has a special surprise!',
+      content: `# LeetCode Activity Log
+
+[${new Date().toISOString()}] Solved "Median of Two Sorted Arrays" (Hard) - Accepted using C++
+[${new Date(Date.now() - 86400000).toISOString()}] Solved "Container With Most Water" (Medium) - Accepted using Rust
+[${new Date(Date.now() - 172800000).toISOString()}] Solved "Valid Parentheses" (Easy) - Accepted using C
+
+NOTE: These are mock entries. Real data will be fetched from LeetCode API once backend integration is complete.
+Contact: sarthakrawat525@gmail.com for API setup.`,
     },
   };
 
-  // Boot sequence simulation
   useEffect(() => {
     if (systemState === 'boot') {
       const bootSequence = [
@@ -166,7 +128,6 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         'Welcome to ResumeOS v3.5.2',
       ];
 
-      // Play boot sound when boot sequence starts
       if (bootProgress === 0) {
         setTimeout(() => playSound('BOOT'), 500);
       }
@@ -198,17 +159,14 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [systemState]);
 
-  // Modified to close all other apps when opening a new one
   const openApp = (app: keyof Apps) => {
     playSound('CLICK');
     setApps(prev => {
-      // Create a new state with all apps closed
       const newState = Object.keys(prev).reduce((acc, key) => {
         acc[key as keyof Apps] = 'closed';
         return acc;
       }, {} as Apps);
       
-      // Open only the requested app
       newState[app] = 'open';
       return newState;
     });
@@ -230,7 +188,6 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }));
   };
 
-  // Enhanced command execution with more interactive commands
   const executeCommand = (command: string): string => {
     setCommandHistory(prev => [...prev, command]);
     
@@ -299,11 +256,9 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return 'sudo: You need to be root to perform this action. Just kidding, this is just a resume website!';
         
       case 'hacker_mode':
-        // In real implementation, this would trigger a CSS class change
         return '🖥️ Hacker mode activated.\nMatrix-style theme enabled. Welcome to the matrix, Neo.';
         
       case 'play_music':
-        // In real implementation, this would trigger audio playback
         return '🎵 Now playing: "Bits & Bytes" - A chiptune soundtrack\n\nControls:\n- pause: Pause playback\n- stop: Stop playback\n- volume [0-10]: Adjust volume';
         
       case 'rm':
@@ -311,6 +266,14 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           return 'KERNEL_PANIC\n\n🚫 Critical system error detected!\nSystem files deletion attempted\n\n...Just kidding! Your resume data is safe. This is just a fun easter egg. I\'d never let you delete my resume that easily! 😉\n\nSystem recovered successfully.';
         }
         return `rm: Cannot remove '${args.join(' ')}': Permission denied`;
+        
+      case 'github_activity':
+        const githubFile = fileSystem['/logs/github_activity.log'];
+        return githubFile.content;
+        
+      case 'leetcode_activity':
+        const leetcodeFile = fileSystem['/logs/leetcode_activity.log'];
+        return leetcodeFile.content;
         
       default:
         return `command not found: ${cmd}`;

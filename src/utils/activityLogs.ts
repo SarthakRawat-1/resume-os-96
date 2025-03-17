@@ -22,6 +22,9 @@ export interface LeetCodeActivity {
   language: string;
 }
 
+// Contact information for API setup
+export const contactEmail = 'sarthakrawat525@gmail.com';
+
 // Mock GitHub activity data (would be replaced with actual API calls)
 const mockGitHubActivity: GitHubActivity[] = [
   {
@@ -78,19 +81,18 @@ const mockLeetCodeActivity: LeetCodeActivity[] = [
 /**
  * Fetch GitHub activity (currently using mock data)
  * In a real implementation, this would use the GitHub API with credentials
+ * 
+ * TODO: Replace with actual API call using Supabase backend
+ * Contact: sarthakrawat525@gmail.com for API credentials
  */
 export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
   // Simulating API delay
   await new Promise(resolve => setTimeout(resolve, 500));
   
-  // In a real implementation, we would fetch from the GitHub API:
-  // const response = await fetch('https://api.github.com/users/USERNAME/events', {
-  //   headers: {
-  //     'Authorization': `token ${process.env.GITHUB_TOKEN}`
-  //   }
-  // });
-  // const data = await response.json();
-  // return transformGitHubData(data);
+  // In a real implementation, we would fetch from the GitHub API via Supabase:
+  // const { data, error } = await supabase.functions.invoke('fetch-github-activity');
+  // if (error) throw error;
+  // return data;
   
   return mockGitHubActivity;
 };
@@ -98,24 +100,18 @@ export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
 /**
  * Fetch LeetCode activity (currently using mock data)
  * In a real implementation, this would use the LeetCode API with credentials
+ * 
+ * TODO: Replace with actual API call using Supabase backend
+ * Contact: sarthakrawat525@gmail.com for API credentials
  */
 export const fetchLeetCodeActivity = async (): Promise<LeetCodeActivity[]> => {
   // Simulating API delay
   await new Promise(resolve => setTimeout(resolve, 700));
   
-  // In a real implementation, we would fetch from LeetCode GraphQL API
-  // const response = await fetch('https://leetcode.com/graphql', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Cookie': process.env.LEETCODE_COOKIE
-  //   },
-  //   body: JSON.stringify({
-  //     query: '...' // GraphQL query for recent submissions
-  //   })
-  // });
-  // const data = await response.json();
-  // return transformLeetCodeData(data);
+  // In a real implementation, we would fetch from LeetCode via Supabase:
+  // const { data, error } = await supabase.functions.invoke('fetch-leetcode-activity');
+  // if (error) throw error;
+  // return data;
   
   return mockLeetCodeActivity;
 };
