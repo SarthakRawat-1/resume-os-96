@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 
@@ -163,29 +162,32 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
   }, [systemState]);
 
   const openApp = (app: keyof Apps) => {
-    console.log(`Opening app: ${app}`); // Debug logging
+    console.log(`Opening app: ${app}`);
     playSound('CLICK');
-    setApps(prev => ({
-      ...prev,
-      [app]: 'open',
-    }));
+    
+    setApps(prevApps => {
+      return {
+        ...prevApps,
+        [app]: 'open'
+      };
+    });
   };
 
   const closeApp = (app: keyof Apps) => {
-    console.log(`Closing app: ${app}`); // Debug logging
+    console.log(`Closing app: ${app}`);
     playSound('CLICK');
-    setApps(prev => ({
-      ...prev,
-      [app]: 'closed',
+    setApps(prevApps => ({
+      ...prevApps,
+      [app]: 'closed'
     }));
   };
 
   const minimizeApp = (app: keyof Apps) => {
-    console.log(`Minimizing app: ${app}`); // Debug logging
+    console.log(`Minimizing app: ${app}`);
     playSound('CLICK');
-    setApps(prev => ({
-      ...prev,
-      [app]: 'minimized',
+    setApps(prevApps => ({
+      ...prevApps,
+      [app]: 'minimized'
     }));
   };
 

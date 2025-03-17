@@ -30,7 +30,7 @@ const Desktop = () => {
   };
   
   return (
-    <div className="desktop-container h-screen w-screen overflow-auto bg-system-darkgray relative">
+    <div className="desktop-container h-screen w-screen overflow-hidden bg-system-darkgray relative">
       {/* Desktop background */}
       <div className="absolute inset-0 bg-gradient-to-br from-system-darkgray to-system-gray z-0 min-h-full">
         {/* Grid pattern overlay */}
@@ -128,52 +128,52 @@ const Desktop = () => {
         </div>
       </div>
       
-      {/* Application windows */}
-      <div className="app-windows absolute inset-0 z-20">
+      {/* Application windows - fixed positioning and z-index */}
+      <div className="fixed inset-0 z-20 pointer-events-none">
         {apps.terminal === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <TerminalComponent />
           </div>
         )}
         
         {apps.fileExplorer === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <FileSystem />
           </div>
         )}
         
         {apps.processManager === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <ProcessManager />
           </div>
         )}
         
         {apps.sysConfig === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <SystemConfig />
           </div>
         )}
         
         {apps.memoryMap === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <MemoryMap />
           </div>
         )}
         
         {apps.contactMe === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <ContactMe />
           </div>
         )}
         
         {apps.activityLogs === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <ActivityLogs />
           </div>
         )}
         
         {apps.readme === 'open' && (
-          <div className="window-appear absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ '--index': 0 } as React.CSSProperties}>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 window-appear pointer-events-auto" style={{ '--index': 0 } as React.CSSProperties}>
             <ReadmeViewer />
           </div>
         )}
