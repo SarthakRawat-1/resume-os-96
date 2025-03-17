@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -36,6 +35,13 @@ const Desktop = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-system-darkgray to-system-gray z-0 min-h-full">
         {/* Grid pattern overlay */}
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        
+        {/* Shogun text in background */}
+        <div className="absolute flex items-center justify-center w-full h-full pointer-events-none">
+          <h1 className="text-[25vw] font-bold text-white/5 select-none tracking-tighter">
+            SHOGUN
+          </h1>
+        </div>
       </div>
       
       {/* Desktop icons in a grid format */}

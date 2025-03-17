@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 import { toast } from 'sonner';
@@ -125,11 +124,11 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         'Loading kernel modules...',
         'Mounting virtual file systems...',
         'Initializing network interfaces...',
-        'Loading user profile: Developer',
+        'Loading user profile: Shogun',
         'Starting system services...',
         'System check: All modules online',
         'Boot sequence completed successfully',
-        'Welcome to ResumeOS v3.5.2',
+        'Welcome to ShogunOS v3.5.2',
       ];
 
       if (bootProgress === 0) {
@@ -165,6 +164,7 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const openApp = (app: keyof Apps) => {
     console.log(`Opening app: ${app}`);
+    playSound('CLICK');
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
@@ -172,8 +172,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
       console.log("New apps state:", newApps);
       return newApps;
     });
-
-    toast.success(`Opening ${app}`);
   };
 
   const closeApp = (app: keyof Apps) => {
