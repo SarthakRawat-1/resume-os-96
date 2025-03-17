@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 import { toast } from 'sonner';
@@ -253,7 +254,7 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         return whoamiFile.content;
         
       case 'help':
-        return 'Available commands:\n- ls [path]: List directory contents\n- cd [path]: Change directory\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- whoami: Display user information\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- help: Display this help message';
+        return 'Available commands:\n- ls [path]: List directory contents\n- cd [path]: Change directory\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- whoami: Display user information\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
         
       case 'clear':
         return 'CLEAR';

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { playSound } from '../utils/sounds';
@@ -128,53 +129,69 @@ const Desktop = () => {
         </div>
       </div>
       
-      {/* Application windows */}
+      {/* Application windows - Modified to be full screen */}
       <div className="app-windows">
         {apps.terminal === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <TerminalComponent />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <TerminalComponent />
+            </div>
           </div>
         )}
         
         {apps.fileExplorer === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <FileSystem />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <FileSystem />
+            </div>
           </div>
         )}
         
         {apps.processManager === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <ProcessManager />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ProcessManager />
+            </div>
           </div>
         )}
         
         {apps.sysConfig === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <SystemConfig />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <SystemConfig />
+            </div>
           </div>
         )}
         
         {apps.memoryMap === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <MemoryMap />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <MemoryMap />
+            </div>
           </div>
         )}
         
         {apps.contactMe === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <ContactMe />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ContactMe />
+            </div>
           </div>
         )}
         
         {apps.activityLogs === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <ActivityLogs />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ActivityLogs />
+            </div>
           </div>
         )}
         
         {apps.readme === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20">
-            <ReadmeViewer />
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ReadmeViewer />
+            </div>
           </div>
         )}
       </div>
@@ -240,4 +257,3 @@ const Desktop = () => {
 };
 
 export default Desktop;
-
