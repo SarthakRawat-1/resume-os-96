@@ -11,6 +11,7 @@ const Terminal = () => {
     { type: 'output', content: 'Welcome to ResumeOS Terminal. Type "help" for available commands.' }
   ]);
   const [hackerMode, setHackerMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputsRef = useRef<HTMLDivElement>(null);
   
@@ -24,7 +25,7 @@ const Terminal = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -97,19 +98,45 @@ const Terminal = () => {
 
     // Activity logs commands
     if (input.trim() === 'github_activity') {
-      setOutputs(prev => [
-        ...prev, 
-        { type: 'output', content: `Recent GitHub Activity:\n${formatActivityForTerminal('github')}` }
-      ]);
+      setIsLoading(true);
+      try {
+        const formattedActivity = await formatActivityForTerminal('github');
+        setOutputs(prev => [
+          ...prev, 
+          { type: 'output', content: `Recent GitHub Activity:\n${formattedActivity}` }
+        ]);
+      } catch (error) {
+        console.error('Error fetching GitHub activity:', error);
+        setOutputs(prev => [
+          ...prev, 
+          { type: 'output', content: 'Error: Failed to fetch GitHub activity data.' }
+        ]);
+        playSound('ERROR');
+      } finally {
+        setIsLoading(false);
+      }
       setInput('');
       return;
     }
 
     if (input.trim() === 'leetcode_activity') {
-      setOutputs(prev => [
-        ...prev, 
-        { type: 'output', content: `Recent LeetCode Activity:\n${formatActivityForTerminal('leetcode')}` }
-      ]);
+      setIsLoading(true);
+      try {
+        const formattedActivity = await formatActivityForTerminal('leetcode');
+        setOutputs(prev => [
+          ...prev, 
+          { type: 'output', content: `Recent LeetCode Activity:\n${formattedActivity}` }
+        ]);
+      } catch (error) {
+        console.error('Error fetching LeetCode activity:', error);
+        setOutputs(prev => [
+          ...prev, 
+          { type: 'output', content: 'Error: Failed to fetch LeetCode activity data.' }
+        ]);
+        playSound('ERROR');
+      } finally {
+        setIsLoading(false);
+      }
       setInput('');
       return;
     }
@@ -197,6 +224,12 @@ const Terminal = () => {
             ))}
           </div>
         ))}
+        
+        {isLoading && (
+          <div className="terminal-output">
+            <div>Loading data...</div>
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="flex mt-2">
           <span className="terminal-prompt mr-2">{currentDirectory} $</span>
