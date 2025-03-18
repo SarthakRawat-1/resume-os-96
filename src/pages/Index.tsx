@@ -26,17 +26,17 @@ const Index = () => {
   
   return (
     <SystemProvider>
-      <ResumeOSWithTheme />
+      <ResumeOSContent />
       <Toaster position="bottom-right" />
     </SystemProvider>
   );
 };
 
-const ResumeOSWithTheme = () => {
-  const { systemState, currentTheme } = useSystem();
+const ResumeOSContent = () => {
+  const { systemState } = useSystem();
   
   return (
-    <div data-theme={currentTheme}>
+    <div>
       {systemState === 'boot' && <BootSequence />}
       {systemState === 'desktop' && <Desktop />}
     </div>

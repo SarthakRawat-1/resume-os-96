@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -197,80 +198,4 @@
   .glow-border {
     @apply border border-terminal-accent/50 animate-glow-pulse;
   }
-}
-
-/* Theme-specific overrides */
-[data-theme="hacker"] {
-  --terminal-background: #000000;
-  --terminal-text: #00ff00;
-  --terminal-accent: #00ff00;
-  --terminal-success: #00ff00;
-  --terminal-warning: #ffff00;
-  --terminal-error: #ff0000;
-  --terminal-muted: #006600;
-  
-  --system-darkgray: #001100;
-  --system-gray: #002200;
-  --system-lightgray: #004400;
-  --system-blue: #00aa00;
-}
-
-[data-theme="synthwave"] {
-  --terminal-background: #241b2f;
-  --terminal-text: #f8f8f2;
-  --terminal-accent: #ff7edb;
-  --terminal-success: #72f1b8;
-  --terminal-warning: #fede5d;
-  --terminal-error: #fe4450;
-  --terminal-muted: #7970a9;
-  
-  --system-darkgray: #241b2f;
-  --system-gray: #2d1b3a;
-  --system-lightgray: #4c3a6d;
-  --system-blue: #ff7edb;
-}
-
-[data-theme="terminal"] {
-  --terminal-background: #0d1117;
-  --terminal-text: #c9d1d9;
-  --terminal-accent: #58a6ff;
-  --terminal-success: #3fb950;
-  --terminal-warning: #d29922;
-  --terminal-error: #f85149;
-  --terminal-muted: #8b949e;
-  
-  --system-darkgray: #090c10;
-  --system-gray: #161b22;
-  --system-lightgray: #30363d;
-  --system-blue: #58a6ff;
-}
-
-[data-theme="ocean"] {
-  --terminal-background: #0f2d3d;
-  --terminal-text: #e0f7fa;
-  --terminal-accent: #48b6f1;
-  --terminal-success: #00c853;
-  --terminal-warning: #ffd600;
-  --terminal-error: #ff5252;
-  --terminal-muted: #607d8b;
-  
-  --system-darkgray: #0a1f2b;
-  --system-gray: #164b5e;
-  --system-lightgray: #256d85;
-  --system-blue: #48b6f1;
-}
-
-[data-theme="sunset"] {
-  --terminal-background: #2d142c;
-  --terminal-text: #f5f5f5;
-  --terminal-accent: #ff9e64;
-  --terminal-success: #9cd326;
-  --terminal-warning: #ffdd33;
-  --terminal-error: #ff3333;
-  --terminal-muted: #9a6e9e;
-  
-  --system-darkgray: #2d142c;
-  --system-gray: #3d1e3c;
-  --system-lightgray: #5a2c59;
-  --system-blue: #ff9e64;
 }

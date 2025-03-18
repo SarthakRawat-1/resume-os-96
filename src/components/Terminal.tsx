@@ -14,7 +14,7 @@ const Terminal = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const outputsRef = useRef<HTMLDivElement>(null);
   
-  const { currentDirectory, executeCommand, closeApp, minimizeApp, currentTheme } = useSystem();
+  const { currentDirectory, executeCommand, closeApp, minimizeApp } = useSystem();
 
   // Play typing sound on input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +165,7 @@ const Terminal = () => {
   };
 
   return (
-    <div className={`terminal-window w-full max-w-5xl mx-auto h-full max-h-[90vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`} data-theme={currentTheme}>
+    <div className={`terminal-window w-full max-w-5xl mx-auto h-full max-h-[90vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`}>
       <div className="terminal-header">
         <div className="flex space-x-2">
           <button 
@@ -194,7 +194,7 @@ const Terminal = () => {
           </button>
         </div>
         <div className="terminal-title flex items-center">
-          <TerminalIcon className="w-4 h-4 mr-2" /> Terminal {hackerMode && '(Hacker Mode)'} - Theme: {currentTheme}
+          <TerminalIcon className="w-4 h-4 mr-2" /> Terminal {hackerMode && '(Hacker Mode)'}
         </div>
         <div className="w-16"></div> {/* Spacer for symmetry */}
       </div>
