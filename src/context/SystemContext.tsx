@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 import { toast } from 'sonner';
+import { ThemeOption, applyTheme } from '../utils/themes';
 
 type SystemState = 'boot' | 'login' | 'desktop';
 type AppState = 'closed' | 'minimized' | 'open';
@@ -28,6 +29,8 @@ interface SystemContextType {
   closeApp: (app: keyof Apps) => void;
   minimizeApp: (app: keyof Apps) => void;
   executeCommand: (command: string) => string;
+  currentTheme: ThemeOption;
+  setCurrentTheme: (theme: ThemeOption) => void;
 }
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
@@ -38,6 +41,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [bootMessages, setBootMessages] = useState<string[]>([]);
   const [currentDirectory, setCurrentDirectory] = useState('/home/user');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [currentTheme, setCurrentTheme] = useState<ThemeOption>('default');
   const [apps, setApps] = useState<Apps>({
     terminal: 'closed',
     fileExplorer: 'closed',
@@ -51,7 +55,12 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     initSounds();
+    applyTheme(currentTheme);
   }, []);
+
+  useEffect(() => {
+    applyTheme(currentTheme);
+  }, [currentTheme]);
 
   const fileSystem = {
     '/': {
@@ -200,6 +209,11 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
     });
   };
 
+  const setTheme = (themeName: ThemeOption) => {
+    setCurrentTheme(themeName);
+    return `Theme set to ${themeName}`;
+  };
+
   const executeCommand = (command: string): string => {
     setCommandHistory(prev => [...prev, command]);
     
@@ -215,24 +229,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
           return `ls: cannot access '${path}': No such directory`;
         }
         return dir.content.join('\n');
-        
-      case 'cd':
-        if (!args[0]) {
-          setCurrentDirectory('/home/user');
-          return '';
-        }
-        
-        let newPath = args[0];
-        if (!newPath.startsWith('/')) {
-          newPath = `${currentDirectory}/${newPath}`.replace(/\/\.\//g, '/').replace(/\/[^\/]+\/\.\.\//g, '/');
-        }
-        
-        if (fileSystem[newPath] && fileSystem[newPath].type === 'dir') {
-          setCurrentDirectory(newPath);
-          return '';
-        } else {
-          return `cd: no such directory: ${args[0]}`;
-        }
         
       case 'cat':
         const filePath = args[0] && args[0].startsWith('/') ? args[0] : `${currentDirectory}/${args[0]}`;
@@ -252,7 +248,7 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         return currentDirectory;
         
       case 'help':
-        return 'Available commands:\n- ls [path]: List directory contents\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
+        return 'Available commands:\n- ls [path]: List directory contents\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- theme: Display available themes or set a theme\n- help: Display this help message';
         
       case 'clear':
         return 'CLEAR';
@@ -283,6 +279,22 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         const leetcodeFile = fileSystem['/logs/leetcode_activity.log'];
         return leetcodeFile.content;
         
+      case 'theme':
+        if (!args.length) {
+          return 'Available themes:\n- default: The default dark theme with blue accents\n- hacker: Classic green-on-black terminal style\n- synthwave: Retro 80s inspired with neon pink accents\n- terminal: Professional terminal look with blue highlights\n- ocean: Calming blue theme inspired by the deep sea\n- sunset: Warm purple and orange inspired by twilight skies\n\nTo set a theme, use: theme set <theme_name>';
+        }
+        
+        if (args[0] === 'set' && args[1]) {
+          const requestedTheme = args[1] as ThemeOption;
+          if (['default', 'hacker', 'synthwave', 'terminal', 'ocean', 'sunset'].includes(requestedTheme)) {
+            return setTheme(requestedTheme);
+          } else {
+            return `Theme "${args[1]}" not found. Use "theme" command to see available themes.`;
+          }
+        }
+        
+        return 'Invalid theme command. Use "theme" to see available themes or "theme set <theme_name>" to set a theme.';
+        
       default:
         return `command not found: ${cmd}`;
     }
@@ -302,6 +314,8 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         closeApp,
         minimizeApp,
         executeCommand,
+        currentTheme,
+        setCurrentTheme: setTheme
       }}
     >
       {children}
