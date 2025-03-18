@@ -115,4 +115,6 @@ export const applyTheme = (theme: ThemeOption): void => {
   
   // Set data attribute for theme-specific CSS
   root.setAttribute('data-theme', theme);
+  
+  console.log(`Theme applied: ${theme}`);
 };

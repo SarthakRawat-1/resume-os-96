@@ -205,9 +205,21 @@ const Terminal = () => {
       >
         {outputs.map((output, index) => (
           <div key={index} className={output.type === 'command' ? 'terminal-command' : 'terminal-output'}>
-            {output.content.split('\n').map((line, i) => (
-              <div key={i} className={hackerMode && output.type === 'output' ? 'text-green-500' : ''}>{line}</div>
-            ))}
+            {output.type === 'command' ? (
+              <div className={hackerMode ? 'text-green-500' : ''}>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-success'}>visitor</span>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-text'}>@</span>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-accent'}>terminal.shogun.os</span>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-text'}>:</span>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-warning'}>{output.content.split(' $ ')[0].split(':')[1]}</span>
+                <span className={hackerMode ? 'text-green-500' : 'text-terminal-text'}> $ </span>
+                <span>{output.content.split(' $ ')[1]}</span>
+              </div>
+            ) : (
+              output.content.split('\n').map((line, i) => (
+                <div key={i} className={hackerMode ? 'text-green-500' : ''}>{line}</div>
+              ))
+            )}
           </div>
         ))}
         

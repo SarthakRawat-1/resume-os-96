@@ -26,24 +26,21 @@ const Index = () => {
   
   return (
     <SystemProvider>
-      <ResumeOS />
+      <ResumeOSWithTheme />
       <Toaster position="bottom-right" />
     </SystemProvider>
   );
 };
 
-const ResumeOS = () => {
-  const { systemState } = useSystem();
+const ResumeOSWithTheme = () => {
+  const { systemState, currentTheme } = useSystem();
   
-  if (systemState === 'boot') {
-    return <BootSequence />;
-  }
-  
-  if (systemState === 'desktop') {
-    return <Desktop />;
-  }
-  
-  return <div>Loading...</div>;
+  return (
+    <div data-theme={currentTheme}>
+      {systemState === 'boot' && <BootSequence />}
+      {systemState === 'desktop' && <Desktop />}
+    </div>
+  );
 };
 
 export default Index;

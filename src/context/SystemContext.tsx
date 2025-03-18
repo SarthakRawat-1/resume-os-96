@@ -1,7 +1,8 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds, playSound } from '../utils/sounds';
 import { toast } from 'sonner';
-import { ThemeOption, applyTheme } from '../utils/themes';
+import { ThemeOption, applyTheme, getThemeDescription } from '../utils/themes';
 
 type SystemState = 'boot' | 'login' | 'desktop';
 type AppState = 'closed' | 'minimized' | 'open';
@@ -35,13 +36,19 @@ interface SystemContextType {
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
 
+// Store theme in localStorage to persist across sessions
+const getStoredTheme = (): ThemeOption => {
+  const stored = localStorage.getItem('resumeOS-theme');
+  return (stored as ThemeOption) || 'default';
+};
+
 export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [systemState, setSystemState] = useState<SystemState>('boot');
   const [bootProgress, setBootProgress] = useState(0);
   const [bootMessages, setBootMessages] = useState<string[]>([]);
   const [currentDirectory, setCurrentDirectory] = useState('/home/user');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
-  const [currentTheme, setCurrentTheme] = useState<ThemeOption>('default');
+  const [currentTheme, setCurrentTheme] = useState<ThemeOption>(getStoredTheme());
   const [apps, setApps] = useState<Apps>({
     terminal: 'closed',
     fileExplorer: 'closed',
@@ -55,11 +62,15 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     initSounds();
+    // Apply theme from localStorage on initial load
     applyTheme(currentTheme);
   }, []);
 
+  // Apply theme whenever it changes and save to localStorage
   useEffect(() => {
+    localStorage.setItem('resumeOS-theme', currentTheme);
     applyTheme(currentTheme);
+    console.log(`Theme applied: ${currentTheme}`);
   }, [currentTheme]);
 
   const fileSystem = {
@@ -211,6 +222,7 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const setTheme = (themeName: ThemeOption) => {
     setCurrentTheme(themeName);
+    toast.success(`Theme changed to ${themeName}`);
     return `Theme set to ${themeName}`;
   };
 
