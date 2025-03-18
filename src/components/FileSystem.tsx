@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Folder, File, FolderOpen, ChevronRight, ChevronDown } from 'lucide-react';
@@ -26,7 +25,6 @@ const FileSystem = () => {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [fileContent, setFileContent] = useState<string | null>(null);
   
-  // Sample file structure (in a real app, this would come from context)
   const [fileTree, setFileTree] = useState<TreeNode[]>([
     {
       id: 'home',
@@ -72,19 +70,75 @@ const FileSystem = () => {
           id: 'project1.md',
           name: 'project1.md',
           type: 'file',
-          content: '# Custom Operating System\nDeveloped a minimalist OS kernel with a focus on performance and security.'
+          content: `# Custom Operating System
+
+Developed a minimalist OS kernel with a focus on performance and security.
+
+## Key Features
+- Custom bootloader and kernel
+- Memory management subsystem
+- Process scheduling
+- Basic device drivers
+
+## Technologies
+- C/C++
+- Assembly
+- QEMU for testing
+
+## Links
+- [GitHub Repository](https://github.com/username/custom-os)
+- [Documentation](https://docs.custom-os.example.com)
+- [Demo Video](https://youtube.com/watch?v=demo-video-id)`
         },
         {
           id: 'project2.md',
           name: 'project2.md',
           type: 'file',
-          content: '# Memory Manager\nImplemented an efficient memory allocation system that reduced fragmentation by 40%.'
+          content: `# Memory Manager
+
+Implemented an efficient memory allocation system that reduced fragmentation by 40%.
+
+## Problem Solved
+Created a specialized allocator for embedded systems with tight memory constraints.
+
+## Approach
+- Custom slab allocator implementation
+- Memory pool design for fixed-size allocations
+- Defragmentation algorithm
+
+## Results
+- 40% reduction in memory fragmentation
+- 25% performance improvement for allocation/deallocation operations
+
+## Links
+- [GitHub Repository](https://github.com/username/memory-manager)
+- [Technical Paper](https://example.com/memory-paper.pdf)
+- [Benchmarks](https://example.com/memory-benchmarks)`
         },
         {
           id: 'project3.md',
           name: 'project3.md',
           type: 'file',
-          content: '# Low-level Graphics Library\nCreated a hardware-accelerated graphics library for resource-constrained systems.'
+          content: `# Low-level Graphics Library
+
+Created a hardware-accelerated graphics library for resource-constrained systems.
+
+## Overview
+A lightweight graphics rendering pipeline designed for embedded systems with minimal GPU support.
+
+## Features
+- Hardware acceleration via custom shaders
+- Optimized rendering algorithms for 2D/3D primitives
+- Support for multiple display interfaces
+
+## Performance
+- 60+ FPS on embedded hardware
+- Memory footprint under 100KB
+
+## Links
+- [GitHub Repository](https://github.com/username/graphics-lib)
+- [API Documentation](https://docs.graphics-lib.example.com)
+- [Demo Projects](https://github.com/username/graphics-lib-demos)`
         }
       ]
     },
@@ -179,6 +233,67 @@ const FileSystem = () => {
     setFileContent(content);
   };
   
+  const renderMarkdownContent = (content: string) => {
+    return content.split('\n').map((line, index) => {
+      if (line.match(/\[.*?\]\(.*?\)/)) {
+        const parts = [];
+        let lastIndex = 0;
+        const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+        let match;
+        
+        while ((match = linkRegex.exec(line)) !== null) {
+          if (match.index > lastIndex) {
+            parts.push(line.substring(lastIndex, match.index));
+          }
+          
+          const linkText = match[1];
+          const linkUrl = match[2];
+          parts.push(
+            <a 
+              key={`${index}-${match.index}`}
+              href={linkUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-terminal-accent hover:underline"
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(linkUrl, '_blank', 'noopener,noreferrer');
+              }}
+            >
+              {linkText}
+            </a>
+          );
+          
+          lastIndex = match.index + match[0].length;
+        }
+        
+        if (lastIndex < line.length) {
+          parts.push(line.substring(lastIndex));
+        }
+        
+        return <div key={index}>{parts}</div>;
+      }
+      
+      if (line.startsWith('# ')) {
+        return <h1 key={index} className="text-xl font-bold mt-4 mb-3 text-terminal-accent">{line.substring(2)}</h1>;
+      } else if (line.startsWith('## ')) {
+        return <h2 key={index} className="text-lg font-bold mt-3 mb-2 text-terminal-warning">{line.substring(3)}</h2>;
+      } else if (line.startsWith('### ')) {
+        return <h3 key={index} className="text-md font-bold mt-2 mb-1 text-terminal-success">{line.substring(4)}</h3>;
+      }
+      
+      if (line.startsWith('- ')) {
+        return <li key={index} className="ml-4 text-terminal-text">{line.substring(2)}</li>;
+      }
+      
+      if (line.trim() === '') {
+        return <br key={index} />;
+      }
+      
+      return <p key={index} className="text-terminal-text">{line}</p>;
+    });
+  };
+  
   const renderTree = (nodes: TreeNode[], level = 0) => {
     return nodes.map(node => (
       <div key={node.id} style={{ paddingLeft: `${level * 16}px` }}>
@@ -244,15 +359,15 @@ const FileSystem = () => {
       </div>
       
       <div className="flex flex-1 overflow-hidden">
-        {/* File tree sidebar */}
         <div className="w-1/3 border-r border-system-lightgray overflow-y-auto p-2">
           {renderTree(fileTree)}
         </div>
         
-        {/* File content area */}
         <div className="flex-1 p-4 overflow-y-auto bg-terminal-background font-mono text-sm">
           {fileContent ? (
-            <pre className="whitespace-pre-wrap">{fileContent}</pre>
+            <div className="whitespace-pre-wrap">
+              {renderMarkdownContent(fileContent)}
+            </div>
           ) : (
             <div className="text-terminal-muted flex items-center justify-center h-full">
               Select a file to view its contents
