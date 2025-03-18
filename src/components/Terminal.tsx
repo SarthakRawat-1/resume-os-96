@@ -31,7 +31,7 @@ const Terminal = () => {
     // Add command to outputs
     setOutputs(prev => [
       ...prev, 
-      { type: 'command', content: `${currentDirectory} $ ${input}` }
+      { type: 'command', content: `visitor@terminal.shogun.os:${currentDirectory} $ ${input}` }
     ]);
 
     // Check for special terminal-specific commands
@@ -151,6 +151,19 @@ const Terminal = () => {
     }
   }, []);
 
+  const formatPrompt = () => {
+    return (
+      <span className="terminal-prompt">
+        <span className="text-terminal-success">visitor</span>
+        <span className="text-terminal-text">@</span>
+        <span className="text-terminal-accent">terminal.shogun.os</span>
+        <span className="text-terminal-text">:</span>
+        <span className="text-terminal-warning">{currentDirectory}</span>
+        <span className="text-terminal-text"> $</span>
+      </span>
+    );
+  };
+
   return (
     <div className={`terminal-window w-full max-w-5xl mx-auto h-full max-h-[90vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`}>
       <div className="terminal-header">
@@ -193,19 +206,19 @@ const Terminal = () => {
         {outputs.map((output, index) => (
           <div key={index} className={output.type === 'command' ? 'terminal-command' : 'terminal-output'}>
             {output.content.split('\n').map((line, i) => (
-              <div key={i}>{line}</div>
+              <div key={i} className={hackerMode && output.type === 'output' ? 'text-green-500' : ''}>{line}</div>
             ))}
           </div>
         ))}
         
         <form onSubmit={handleSubmit} className="flex mt-2">
-          <span className="terminal-prompt mr-2">{currentDirectory} $</span>
+          {formatPrompt()}
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={handleInputChange}
-            className={`flex-1 bg-transparent outline-none border-none terminal-command cursor text-terminal-text ${hackerMode ? 'text-green-500' : ''}`}
+            className={`flex-1 bg-transparent outline-none border-none terminal-command cursor ml-2 ${hackerMode ? 'text-green-500' : ''}`}
             autoFocus
           />
         </form>

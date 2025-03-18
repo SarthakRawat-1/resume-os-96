@@ -64,7 +64,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     },
     '/home/user': {
       type: 'dir',
-      content: ['about.txt', 'contact.txt', 'skills.txt', 'whoami.txt', 'resume.txt'],
+      content: ['about.txt', 'contact.txt', 'skills.txt'],
     },
     '/projects': {
       type: 'dir',
@@ -89,6 +89,10 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     '/home/user/contact.txt': {
       type: 'file',
       content: 'Email: sarthakrawat525@gmail.com\nGitHub: github.com/username\nLinkedIn: linkedin.com/in/username\nTwitter: twitter.com/username',
+    },
+    '/home/user/skills.txt': {
+      type: 'file',
+      content: 'Programming Languages: C++, Rust, Python, JavaScript/TypeScript\nFrameworks: React, Express, NextJS\nTools: Docker, Kubernetes, Git\nSpecialties: Low-level optimization, System design, Performance tuning',
     },
     '/logs/github_activity.log': {
       type: 'file',
@@ -247,12 +251,8 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
       case 'pwd':
         return currentDirectory;
         
-      case 'whoami':
-        const whoamiFile = fileSystem['/home/user/whoami.txt'];
-        return whoamiFile.content;
-        
       case 'help':
-        return 'Available commands:\n- ls [path]: List directory contents\n- cd [path]: Change directory\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- whoami: Display user information\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
+        return 'Available commands:\n- ls [path]: List directory contents\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
         
       case 'clear':
         return 'CLEAR';

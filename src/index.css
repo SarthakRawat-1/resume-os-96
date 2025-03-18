@@ -86,7 +86,7 @@
   }
 
   .terminal-prompt {
-    @apply text-terminal-accent font-bold;
+    @apply font-bold;
   }
 
   .terminal-command {
@@ -111,6 +111,16 @@
 
   .terminal-muted {
     @apply text-terminal-muted;
+  }
+
+  .hacker-mode .terminal-body {
+    @apply bg-black;
+  }
+
+  .hacker-mode .terminal-command,
+  .hacker-mode .terminal-output,
+  .hacker-mode input {
+    @apply text-green-500;
   }
 
   .window-button {
