@@ -115,6 +115,10 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' },
 				},
+				'window-disappear': {
+					'0%': { transform: 'scale(1)', opacity: '1' },
+					'100%': { transform: 'scale(0.95)', opacity: '0' },
+				},
 				'glow-pulse': {
 					'0%, 100%': { boxShadow: '0 0 5px rgba(88, 166, 255, 0.5)' },
 					'50%': { boxShadow: '0 0 15px rgba(88, 166, 255, 0.8)' },
@@ -130,6 +134,7 @@ export default {
 				'slide-in': 'slide-in 0.3s ease-out forwards',
 				'overlay-show': 'overlay-show 0.3s ease-out forwards',
 				'window-appear': 'window-appear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+				'window-disappear': 'window-disappear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
 				'glow-pulse': 'glow-pulse 2s infinite',
 			},
 			backdropFilter: {

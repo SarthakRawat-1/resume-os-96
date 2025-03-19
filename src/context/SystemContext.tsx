@@ -1,9 +1,9 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { initSounds } from '../utils/sounds';
 import { toast } from 'sonner';
 
 type SystemState = 'boot' | 'login' | 'desktop';
-type AppState = 'closed' | 'minimized' | 'open';
+type AppState = 'closed' | 'minimized' | 'open' | 'closing';
 
 interface Apps {
   terminal: AppState;
@@ -48,10 +48,6 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     activityLogs: 'closed',
     readme: 'closed',
   });
-
-  useEffect(() => {
-    initSounds();
-  }, []);
 
   const fileSystem = {
     '/': {
@@ -178,9 +174,20 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
-      newApps[app] = 'closed';
+      newApps[app] = 'closing';
       return newApps;
     });
+    
+    // Set app to closed after animation completes
+    setTimeout(() => {
+      setApps(prevApps => {
+        const newApps = { ...prevApps };
+        if (newApps[app] === 'closing') {
+          newApps[app] = 'closed';
+        }
+        return newApps;
+      });
+    }, 300); // Match animation duration
   };
 
   const minimizeApp = (app: keyof Apps) => {
