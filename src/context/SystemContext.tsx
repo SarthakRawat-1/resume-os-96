@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { initSounds } from '../utils/sounds';
 import { toast } from 'sonner';
 
 type SystemState = 'boot' | 'login' | 'desktop';
-type AppState = 'closed' | 'minimized' | 'open';
+type AppState = 'closed' | 'minimized' | 'open' | 'opening' | 'closing';
 
 interface Apps {
   terminal: AppState;
@@ -48,10 +47,6 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     activityLogs: 'closed',
     readme: 'closed',
   });
-
-  useEffect(() => {
-    initSounds();
-  }, []);
 
   const fileSystem = {
     '/': {
@@ -167,7 +162,18 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
-      newApps[app] = 'open';
+      newApps[app] = 'opening';
+      
+      setTimeout(() => {
+        setApps(prevApps => {
+          const updatedApps = { ...prevApps };
+          if (updatedApps[app] === 'opening') {
+            updatedApps[app] = 'open';
+          }
+          return updatedApps;
+        });
+      }, 300);
+      
       console.log("New apps state:", newApps);
       return newApps;
     });
@@ -178,7 +184,18 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
-      newApps[app] = 'closed';
+      newApps[app] = 'closing';
+      
+      setTimeout(() => {
+        setApps(prevApps => {
+          const updatedApps = { ...prevApps };
+          if (updatedApps[app] === 'closing') {
+            updatedApps[app] = 'closed';
+          }
+          return updatedApps;
+        });
+      }, 300);
+      
       return newApps;
     });
   };

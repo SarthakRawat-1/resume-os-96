@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import { 
@@ -133,68 +134,84 @@ const Desktop = () => {
         </div>
       </div>
       
-      {/* Application windows - Modified to be full screen */}
+      {/* Application windows */}
       <div className="app-windows">
-        {apps.terminal === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <TerminalComponent />
+        {(apps.terminal === 'open' || apps.terminal === 'opening' || apps.terminal === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.terminal === 'opening' ? 'animate-overlay-show' : apps.terminal === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.terminal === 'opening' ? 'animate-window-appear' : apps.terminal === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <TerminalComponent />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.fileExplorer === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <FileSystem />
+        {(apps.fileExplorer === 'open' || apps.fileExplorer === 'opening' || apps.fileExplorer === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.fileExplorer === 'opening' ? 'animate-overlay-show' : apps.fileExplorer === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.fileExplorer === 'opening' ? 'animate-window-appear' : apps.fileExplorer === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <FileSystem />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.processManager === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <ProcessManager />
+        {(apps.processManager === 'open' || apps.processManager === 'opening' || apps.processManager === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.processManager === 'opening' ? 'animate-overlay-show' : apps.processManager === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.processManager === 'opening' ? 'animate-window-appear' : apps.processManager === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <ProcessManager />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.sysConfig === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <SystemConfig />
+        {(apps.sysConfig === 'open' || apps.sysConfig === 'opening' || apps.sysConfig === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.sysConfig === 'opening' ? 'animate-overlay-show' : apps.sysConfig === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.sysConfig === 'opening' ? 'animate-window-appear' : apps.sysConfig === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <SystemConfig />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.memoryMap === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <MemoryMap />
+        {(apps.memoryMap === 'open' || apps.memoryMap === 'opening' || apps.memoryMap === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.memoryMap === 'opening' ? 'animate-overlay-show' : apps.memoryMap === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.memoryMap === 'opening' ? 'animate-window-appear' : apps.memoryMap === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <MemoryMap />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.contactMe === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <ContactMe />
+        {(apps.contactMe === 'open' || apps.contactMe === 'opening' || apps.contactMe === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.contactMe === 'opening' ? 'animate-overlay-show' : apps.contactMe === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.contactMe === 'opening' ? 'animate-window-appear' : apps.contactMe === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <ContactMe />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.activityLogs === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <ActivityLogs />
+        {(apps.activityLogs === 'open' || apps.activityLogs === 'opening' || apps.activityLogs === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.activityLogs === 'opening' ? 'animate-overlay-show' : apps.activityLogs === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.activityLogs === 'opening' ? 'animate-window-appear' : apps.activityLogs === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <ActivityLogs />
+              </div>
             </div>
           </div>
         )}
         
-        {apps.readme === 'open' && (
-          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
-            <div className="w-full h-full p-4 flex items-center justify-center">
-              <ReadmeViewer />
+        {(apps.readme === 'open' || apps.readme === 'opening' || apps.readme === 'closing') && (
+          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm ${apps.readme === 'opening' ? 'animate-overlay-show' : apps.readme === 'closing' ? 'animate-window-disappear' : ''}`}>
+            <div className={`w-full h-full p-4 flex items-center justify-center ${apps.readme === 'opening' ? 'animate-window-appear' : apps.readme === 'closing' ? 'animate-window-disappear' : ''}`}>
+              <div className="bg-terminal-background rounded-lg shadow-lg w-full h-full overflow-hidden">
+                <ReadmeViewer />
+              </div>
             </div>
           </div>
         )}
