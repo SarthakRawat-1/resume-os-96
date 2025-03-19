@@ -27,25 +27,6 @@ const Desktop = () => {
     openApp(app as any);
   };
   
-  // Helper function to apply the appropriate animation classes based on app state
-  const getAnimationClasses = (appState: string) => {
-    if (appState === 'open') {
-      return {
-        overlay: 'animate-overlay-show',
-        window: 'animate-window-appear'
-      };
-    } else if (appState === 'closing') {
-      return {
-        overlay: 'animate-overlay-hide',
-        window: 'animate-window-disappear'
-      };
-    }
-    return {
-      overlay: '',
-      window: ''
-    };
-  };
-  
   return (
     <div className="desktop-container h-screen w-screen overflow-hidden bg-system-darkgray relative">
       {/* Desktop background */}
@@ -152,84 +133,68 @@ const Desktop = () => {
         </div>
       </div>
       
-      {/* Application windows - Modified with animations and opacity */}
+      {/* Application windows - Modified to be full screen */}
       <div className="app-windows">
-        {(apps.terminal === 'open' || apps.terminal === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.terminal).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.terminal).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <TerminalComponent />
-              </div>
+        {apps.terminal === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <TerminalComponent />
             </div>
           </div>
         )}
         
-        {(apps.fileExplorer === 'open' || apps.fileExplorer === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.fileExplorer).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.fileExplorer).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <FileSystem />
-              </div>
+        {apps.fileExplorer === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <FileSystem />
             </div>
           </div>
         )}
         
-        {(apps.processManager === 'open' || apps.processManager === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.processManager).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.processManager).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <ProcessManager />
-              </div>
+        {apps.processManager === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ProcessManager />
             </div>
           </div>
         )}
         
-        {(apps.sysConfig === 'open' || apps.sysConfig === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.sysConfig).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.sysConfig).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <SystemConfig />
-              </div>
+        {apps.sysConfig === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <SystemConfig />
             </div>
           </div>
         )}
         
-        {(apps.memoryMap === 'open' || apps.memoryMap === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.memoryMap).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.memoryMap).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <MemoryMap />
-              </div>
+        {apps.memoryMap === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <MemoryMap />
             </div>
           </div>
         )}
         
-        {(apps.contactMe === 'open' || apps.contactMe === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.contactMe).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.contactMe).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <ContactMe />
-              </div>
+        {apps.contactMe === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ContactMe />
             </div>
           </div>
         )}
         
-        {(apps.activityLogs === 'open' || apps.activityLogs === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.activityLogs).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.activityLogs).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <ActivityLogs />
-              </div>
+        {apps.activityLogs === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ActivityLogs />
             </div>
           </div>
         )}
         
-        {(apps.readme === 'open' || apps.readme === 'closing') && (
-          <div className={`fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/80 backdrop-blur-sm ${getAnimationClasses(apps.readme).overlay}`}>
-            <div className={`w-full h-full p-4 flex items-center justify-center ${getAnimationClasses(apps.readme).window}`}>
-              <div className="bg-terminal-background shadow-xl border border-system-lightgray/50 rounded-lg w-full h-full overflow-hidden">
-                <ReadmeViewer />
-              </div>
+        {apps.readme === 'open' && (
+          <div className="fixed inset-0 flex items-center justify-center z-20 bg-system-darkgray/90 backdrop-blur-sm">
+            <div className="w-full h-full p-4 flex items-center justify-center">
+              <ReadmeViewer />
             </div>
           </div>
         )}
@@ -239,49 +204,49 @@ const Desktop = () => {
       <div className="taskbar fixed bottom-0 left-0 right-0 h-12 bg-system-gray/80 backdrop-blur-md border-t border-system-lightgray/50 flex items-center px-4 z-30">
         <div className="flex space-x-2">
           {apps.terminal === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent animate-fade-in-up" style={{ animationDelay: '50ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent">
               <Terminal className="w-5 h-5 text-terminal-accent" />
             </div>
           )}
           
           {apps.readme === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-white animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-white">
               <BookOpen className="w-5 h-5 text-white" />
             </div>
           )}
           
           {apps.fileExplorer === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-warning animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-warning">
               <FolderOpen className="w-5 h-5 text-terminal-warning" />
             </div>
           )}
           
           {apps.processManager === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-success animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-success">
               <Cpu className="w-5 h-5 text-terminal-success" />
             </div>
           )}
           
           {apps.sysConfig === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-text animate-fade-in-up" style={{ animationDelay: '250ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-text">
               <Settings className="w-5 h-5 text-terminal-text" />
             </div>
           )}
           
           {apps.memoryMap === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-error animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-error">
               <Map className="w-5 h-5 text-terminal-error" />
             </div>
           )}
           
           {apps.contactMe === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-muted animate-fade-in-up" style={{ animationDelay: '350ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-muted">
               <Mail className="w-5 h-5 text-terminal-muted" />
             </div>
           )}
           
           {apps.activityLogs === 'open' && (
-            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+            <div className="w-8 h-8 bg-terminal-background rounded-md flex items-center justify-center border-b-2 border-terminal-accent">
               <Activity className="w-5 h-5 text-terminal-accent" />
             </div>
           )}
