@@ -1,9 +1,10 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initSounds } from '../utils/sounds';
 import { toast } from 'sonner';
 
 type SystemState = 'boot' | 'login' | 'desktop';
-type AppState = 'closed' | 'minimized' | 'open';
+type AppState = 'closed' | 'minimized' | 'open' | 'closing';
 
 interface Apps {
   terminal: AppState;
@@ -176,11 +177,21 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
   const closeApp = (app: keyof Apps) => {
     console.log(`Closing app: ${app}`);
     
+    // First set the app to "closing" state for animation
     setApps(prevApps => {
       const newApps = { ...prevApps };
-      newApps[app] = 'closed';
+      newApps[app] = 'closing';
       return newApps;
     });
+    
+    // After animation duration, actually close the app
+    setTimeout(() => {
+      setApps(prevApps => {
+        const newApps = { ...prevApps };
+        newApps[app] = 'closed';
+        return newApps;
+      });
+    }, 300); // Match this with animation duration
   };
 
   const minimizeApp = (app: keyof Apps) => {
