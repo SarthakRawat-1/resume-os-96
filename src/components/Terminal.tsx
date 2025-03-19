@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Terminal as TerminalIcon } from 'lucide-react';
-import { playSound, toggleMusic, setMusicVolume, stopMusic } from '../utils/sounds';
 import { formatActivityForTerminal } from '../utils/activityLogs';
 
 const Terminal = () => {
@@ -16,12 +15,9 @@ const Terminal = () => {
   
   const { currentDirectory, executeCommand, closeApp, minimizeApp } = useSystem();
 
-  // Play typing sound on input change
+  // Handle input change without sound
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    if (e.target.value.length > input.length) {
-      playSound('TYPING');
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,56 +37,6 @@ const Terminal = () => {
         ...prev, 
         { type: 'output', content: '🖥️ Hacker mode activated.\nMatrix-style theme enabled. Welcome to the matrix, Neo.' }
       ]);
-      playSound('SUCCESS');
-      setInput('');
-      return;
-    }
-
-    if (input.trim() === 'play_music') {
-      const result = toggleMusic();
-      setOutputs(prev => [
-        ...prev, 
-        { type: 'output', content: `🎵 ${result.status === 'playing' ? 'Now playing' : 'Failed to play'}: "Bits & Bytes" - A chiptune soundtrack\n\nControls:\n- pause: Pause playback\n- stop: Stop playback\n- volume [0-10]: Adjust volume` }
-      ]);
-      setInput('');
-      return;
-    }
-
-    if (input.trim() === 'pause') {
-      const result = toggleMusic();
-      setOutputs(prev => [
-        ...prev, 
-        { type: 'output', content: `Music ${result.status}` }
-      ]);
-      setInput('');
-      return;
-    }
-
-    if (input.trim() === 'stop') {
-      const result = stopMusic();
-      setOutputs(prev => [
-        ...prev, 
-        { type: 'output', content: `Music ${result.status}` }
-      ]);
-      setInput('');
-      return;
-    }
-
-    if (input.trim().startsWith('volume ')) {
-      const level = parseInt(input.trim().split(' ')[1]);
-      if (!isNaN(level) && level >= 0 && level <= 10) {
-        const result = setMusicVolume(level);
-        setOutputs(prev => [
-          ...prev, 
-          { type: 'output', content: result.status }
-        ]);
-      } else {
-        setOutputs(prev => [
-          ...prev, 
-          { type: 'output', content: 'Invalid volume level. Use a number between 0 and 10.' }
-        ]);
-        playSound('ERROR');
-      }
       setInput('');
       return;
     }
@@ -121,11 +67,6 @@ const Terminal = () => {
     if (result === 'CLEAR') {
       setOutputs([]);
     } else if (result) {
-      // Check for error messages
-      if (result.includes('not found') || result.includes('cannot') || result.includes('permission denied')) {
-        playSound('ERROR');
-      }
-
       // Add result to outputs
       setOutputs(prev => [
         ...prev, 
@@ -171,7 +112,6 @@ const Terminal = () => {
           <button 
             className="window-button window-close flex items-center justify-center"
             onClick={() => {
-              playSound('CLICK');
               closeApp('terminal');
             }}
           >
@@ -180,7 +120,6 @@ const Terminal = () => {
           <button 
             className="window-button window-minimize"
             onClick={() => {
-              playSound('CLICK');
               minimizeApp('terminal');
             }}
           >
@@ -188,7 +127,6 @@ const Terminal = () => {
           </button>
           <button 
             className="window-button window-maximize"
-            onClick={() => playSound('CLICK')}
           >
             <Square className="w-2 h-2 opacity-0 group-hover:opacity-100" />
           </button>

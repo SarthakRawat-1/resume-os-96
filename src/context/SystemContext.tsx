@@ -1,6 +1,5 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { initSounds, playSound } from '../utils/sounds';
+import { initSounds } from '../utils/sounds';
 import { toast } from 'sonner';
 
 type SystemState = 'boot' | 'login' | 'desktop';
@@ -136,10 +135,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         'Welcome to ShogunOS v3.5.2',
       ];
 
-      if (bootProgress === 0) {
-        setTimeout(() => playSound('BOOT'), 500);
-      }
-
       const bootInterval = setInterval(() => {
         const progressIncrement = 100 / bootSequence.length;
         
@@ -169,7 +164,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const openApp = (app: keyof Apps) => {
     console.log(`Opening app: ${app}`);
-    playSound('CLICK');
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
@@ -181,7 +175,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const closeApp = (app: keyof Apps) => {
     console.log(`Closing app: ${app}`);
-    playSound('CLICK');
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
@@ -192,7 +185,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
 
   const minimizeApp = (app: keyof Apps) => {
     console.log(`Minimizing app: ${app}`);
-    playSound('CLICK');
     
     setApps(prevApps => {
       const newApps = { ...prevApps };
@@ -235,7 +227,7 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         return currentDirectory;
         
       case 'help':
-        return 'Available commands:\n- ls [path]: List directory contents\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- play_music: Play background music\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
+        return 'Available commands:\n- ls [path]: List directory contents\n- cat [file]: Display file contents\n- pwd: Print working directory\n- clear: Clear the terminal\n- sudo [command]: Run command with elevated privileges\n- hacker_mode: Enable hacker aesthetic\n- github_activity: Display recent GitHub activity\n- leetcode_activity: Display recent LeetCode activity\n- help: Display this help message';
         
       case 'clear':
         return 'CLEAR';
@@ -248,9 +240,6 @@ Contact: sarthakrawat525@gmail.com for API setup.`,
         
       case 'hacker_mode':
         return '🖥️ Hacker mode activated.\nMatrix-style theme enabled. Welcome to the matrix, Neo.';
-        
-      case 'play_music':
-        return '🎵 Now playing: "Bits & Bytes" - A chiptune soundtrack\n\nControls:\n- pause: Pause playback\n- stop: Stop playback\n- volume [0-10]: Adjust volume';
         
       case 'rm':
         if (args[0] === '-rf' && args[1] === '/') {

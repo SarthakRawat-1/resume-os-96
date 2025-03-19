@@ -1,7 +1,5 @@
-
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
-import { playSound } from '../utils/sounds';
 import { 
   Terminal, 
   FolderOpen, 
@@ -26,7 +24,6 @@ const Desktop = () => {
   
   const handleOpenApp = (app: string) => {
     console.log(`Attempting to open app: ${app}`);
-    playSound('CLICK');
     openApp(app as any);
   };
   
@@ -37,8 +34,8 @@ const Desktop = () => {
         {/* Grid pattern overlay */}
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         
-        {/* Shogun text in background - Adjusted position with py-16 to move it closer to center */}
-        <div className="absolute flex items-center justify-center w-full h-full pointer-events-none py-16">
+        {/* Shogun text in background */}
+        <div className="absolute flex items-center justify-center w-full h-full pointer-events-none py-12">
           <h1 className="text-[20vw] font-bold text-white/5 select-none tracking-widest">
             SHOGUN
           </h1>

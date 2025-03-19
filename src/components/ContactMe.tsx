@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Mail, Github, Linkedin, Twitter, Send } from 'lucide-react';
-import { playSound } from '../utils/sounds';
 
 const ContactMe = () => {
   const [activeTab, setActiveTab] = useState<'links' | 'message'>('links');
@@ -27,13 +26,11 @@ const ContactMe = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    playSound('CLICK');
     
     // Simulate sending
     setTimeout(() => {
       setSending(false);
       setSent(true);
-      playSound('SUCCESS');
       
       // Reset form
       setTimeout(() => {
@@ -55,7 +52,6 @@ const ContactMe = () => {
           <button 
             className="window-button window-close flex items-center justify-center"
             onClick={() => {
-              playSound('CLICK');
               closeApp('contactMe');
             }}
           >
@@ -64,7 +60,6 @@ const ContactMe = () => {
           <button 
             className="window-button window-minimize"
             onClick={() => {
-              playSound('CLICK');
               minimizeApp('contactMe');
             }}
           >
@@ -72,7 +67,6 @@ const ContactMe = () => {
           </button>
           <button 
             className="window-button window-maximize"
-            onClick={() => playSound('CLICK')}
           >
             <Square className="w-2 h-2 opacity-0 group-hover:opacity-100" />
           </button>
@@ -89,7 +83,6 @@ const ContactMe = () => {
             className={`px-4 py-2 flex items-center ${activeTab === 'links' ? 'bg-system-lightgray text-terminal-accent' : 'hover:bg-system-lightgray/30'}`}
             onClick={() => {
               setActiveTab('links');
-              playSound('CLICK');
             }}
           >
             <Linkedin className="w-4 h-4 mr-2" /> Social Links
@@ -98,7 +91,6 @@ const ContactMe = () => {
             className={`px-4 py-2 flex items-center ${activeTab === 'message' ? 'bg-system-lightgray text-terminal-accent' : 'hover:bg-system-lightgray/30'}`}
             onClick={() => {
               setActiveTab('message');
-              playSound('CLICK');
             }}
           >
             <Send className="w-4 h-4 mr-2" /> Send Message
@@ -116,8 +108,6 @@ const ContactMe = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-system-lightgray/20 hover:bg-system-lightgray/40 p-4 rounded flex items-center"
-                  onMouseOver={() => playSound('HOVER')}
-                  onClick={() => playSound('CLICK')}
                 >
                   <Github className="w-8 h-8 mr-4 text-terminal-accent" />
                   <div>
@@ -131,8 +121,6 @@ const ContactMe = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-system-lightgray/20 hover:bg-system-lightgray/40 p-4 rounded flex items-center"
-                  onMouseOver={() => playSound('HOVER')}
-                  onClick={() => playSound('CLICK')}
                 >
                   <Linkedin className="w-8 h-8 mr-4 text-terminal-accent" />
                   <div>
@@ -146,8 +134,6 @@ const ContactMe = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-system-lightgray/20 hover:bg-system-lightgray/40 p-4 rounded flex items-center"
-                  onMouseOver={() => playSound('HOVER')}
-                  onClick={() => playSound('CLICK')}
                 >
                   <Twitter className="w-8 h-8 mr-4 text-terminal-accent" />
                   <div>
@@ -159,8 +145,6 @@ const ContactMe = () => {
                 <a 
                   href="mailto:your.email@example.com" 
                   className="bg-system-lightgray/20 hover:bg-system-lightgray/40 p-4 rounded flex items-center"
-                  onMouseOver={() => playSound('HOVER')}
-                  onClick={() => playSound('CLICK')}
                 >
                   <Mail className="w-8 h-8 mr-4 text-terminal-accent" />
                   <div>
@@ -244,7 +228,6 @@ const ContactMe = () => {
                     type="submit"
                     disabled={sending}
                     className="bg-terminal-accent text-white px-4 py-2 rounded flex items-center justify-center hover:bg-terminal-accent/80 transition-colors"
-                    onMouseOver={() => playSound('HOVER')}
                   >
                     {sending ? (
                       <>Sending<span className="animate-pulse">...</span></>

@@ -3,15 +3,13 @@ import React from 'react';
 import { SystemProvider, useSystem } from '../context/SystemContext';
 import BootSequence from '../components/BootSequence';
 import Desktop from '../components/Desktop';
-import { initSounds } from '../utils/sounds';
 import { Toaster } from '@/components/ui/sonner';
 
 const Index = () => {
   const [initialized, setInitialized] = React.useState(false);
   
   React.useEffect(() => {
-    // Initialize system and sounds
-    initSounds();
+    // Initialize system
     setInitialized(true);
     
     // Log that the application has started
