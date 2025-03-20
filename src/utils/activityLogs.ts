@@ -12,6 +12,27 @@ export interface GitHubActivity {
   description: string;
 }
 
+// GitHub API response interfaces
+export interface GitHubApiResponse {
+  id: string;
+  type: string;
+  actor: {
+    login: string;
+  };
+  repo: {
+    name: string;
+    url: string;
+  };
+  payload: {
+    commits?: Array<{
+      message: string;
+    }>;
+    ref_type?: string;
+    description?: string | null;
+  };
+  created_at: string;
+}
+
 // LeetCode API response interfaces
 export interface LeetCodeApiResponse {
   count: number;
@@ -30,7 +51,6 @@ export interface LeetCodeSubmission {
 export interface LeetCodeActivity {
   id: string;
   problem: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
   status: 'Accepted' | 'Wrong Answer';
   time: string;
   language: string;
@@ -39,43 +59,51 @@ export interface LeetCodeActivity {
 // Contact information for API setup
 export const contactEmail = 'sarthakrawat525@gmail.com';
 
-// Mock GitHub activity data (would be replaced with actual API calls)
-const mockGitHubActivity: GitHubActivity[] = [
-  {
-    id: '1',
-    type: 'PushEvent',
-    repo: 'resume-os',
-    time: new Date().toISOString(),
-    description: 'Added sound effects and music player to ResumeOS'
-  },
-  {
-    id: '2',
-    type: 'CreateEvent',
-    repo: 'low-level-optimizations',
-    time: new Date(Date.now() - 3600000).toISOString(),
-    description: 'Created a new repository for performance optimization techniques'
-  },
-  {
-    id: '3',
-    type: 'PullRequestEvent',
-    repo: 'kernel-experiments',
-    time: new Date(Date.now() - 7200000).toISOString(),
-    description: 'Merged PR: Fixed memory leak in custom allocator'
-  }
-];
-
-// LeetCode API endpoint
+// API endpoints
+const GITHUB_API_ENDPOINT = 'https://api.github.com/users/SarthakRawat-1/events/public?per_page=3';
 const LEETCODE_API_ENDPOINT = 'https://alfa-leetcode-api.onrender.com/Shogun_the_Great/acSubmission?limit=3';
 
 /**
- * Fetch GitHub activity (currently using mock data)
- * In a real implementation, this would use the GitHub API with credentials
+ * Fetch GitHub activity from the GitHub API
  */
 export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
-  // Simulating API delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  return mockGitHubActivity;
+  try {
+    const response = await fetch(GITHUB_API_ENDPOINT);
+    
+    if (!response.ok) {
+      throw new Error(`GitHub API returned ${response.status}`);
+    }
+    
+    const data: GitHubApiResponse[] = await response.json();
+    
+    // Transform API response to our app's format
+    return data.map(item => {
+      let description = '';
+      
+      // Generate a description based on event type
+      if (item.type === 'PushEvent' && item.payload.commits && item.payload.commits.length > 0) {
+        description = `Pushed: ${item.payload.commits[0].message}`;
+      } else if (item.type === 'CreateEvent') {
+        const refType = item.payload.ref_type || 'repository';
+        description = `Created ${refType}`;
+      } else if (item.type === 'PullRequestEvent') {
+        description = 'Opened or updated a pull request';
+      } else {
+        description = `${item.type} activity`;
+      }
+      
+      return {
+        id: item.id,
+        type: item.type,
+        repo: item.repo.name.split('/')[1],
+        time: item.created_at,
+        description
+      };
+    });
+  } catch (error) {
+    console.error('Error fetching GitHub activity:', error);
+    return [];
+  }
 };
 
 /**
@@ -96,15 +124,9 @@ export const fetchLeetCodeActivity = async (): Promise<LeetCodeActivity[]> => {
       // Map timestamp to a date string
       const timeDate = new Date(parseInt(submission.timestamp) * 1000);
       
-      // Generate a random difficulty since the API doesn't provide it
-      // In a real app, we'd get this from another API call or database
-      const difficulties: Array<'Easy' | 'Medium' | 'Hard'> = ['Easy', 'Medium', 'Hard'];
-      const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
-      
       return {
         id: index.toString(),
         problem: submission.title,
-        difficulty: randomDifficulty,
         status: submission.statusDisplay as 'Accepted' | 'Wrong Answer',
         time: timeDate.toISOString(),
         language: submission.lang,
@@ -121,12 +143,8 @@ export const fetchLeetCodeActivity = async (): Promise<LeetCodeActivity[]> => {
  */
 export const formatActivityForTerminal = (type: 'github' | 'leetcode'): string => {
   if (type === 'github') {
-    return mockGitHubActivity.map(activity => 
-      `[${new Date(activity.time).toLocaleTimeString()}] ${activity.type} on ${activity.repo}: ${activity.description}`
-    ).join('\n');
+    return "Use the ActivityLogs app to view up-to-date GitHub activity.";
   } else {
-    // For LeetCode, we can't use sync formatting with the async API
-    // This is a placeholder, in practice you might want to cache the data
     return "Use the ActivityLogs app to view up-to-date LeetCode activity.";
   }
 };

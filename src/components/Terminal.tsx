@@ -1,8 +1,7 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Terminal as TerminalIcon } from 'lucide-react';
-import { formatActivityForTerminal, fetchLeetCodeActivity } from '../utils/activityLogs';
+import { fetchLeetCodeActivity, fetchGitHubActivity } from '../utils/activityLogs';
 
 const Terminal = () => {
   const [input, setInput] = useState('');
@@ -45,8 +44,26 @@ const Terminal = () => {
     if (input.trim() === 'github_activity') {
       setOutputs(prev => [
         ...prev, 
-        { type: 'output', content: `Recent GitHub Activity:\n${formatActivityForTerminal('github')}` }
+        { type: 'output', content: 'Fetching GitHub activity...' }
       ]);
+
+      try {
+        const githubData = await fetchGitHubActivity();
+        const formattedOutput = githubData.map(activity => 
+          `[${new Date(activity.time).toLocaleTimeString()}] ${activity.type} on ${activity.repo}: ${activity.description}`
+        ).join('\n');
+
+        setOutputs(prev => [
+          ...prev.slice(0, -1), // Remove the "Fetching..." message
+          { type: 'output', content: `Recent GitHub Activity:\n${formattedOutput || 'No activity found.'}` }
+        ]);
+      } catch (error) {
+        setOutputs(prev => [
+          ...prev.slice(0, -1), // Remove the "Fetching..." message
+          { type: 'output', content: 'Error fetching GitHub activity. Please try again later.' }
+        ]);
+      }
+      
       setInput('');
       return;
     }
@@ -60,7 +77,7 @@ const Terminal = () => {
       try {
         const leetcodeData = await fetchLeetCodeActivity();
         const formattedOutput = leetcodeData.map(activity => 
-          `[${new Date(activity.time).toLocaleTimeString()}] Solved "${activity.problem}" (${activity.difficulty}) - ${activity.status} using ${activity.language}`
+          `[${new Date(activity.time).toLocaleTimeString()}] Solved "${activity.problem}" - ${activity.status} using ${activity.language}`
         ).join('\n');
 
         setOutputs(prev => [

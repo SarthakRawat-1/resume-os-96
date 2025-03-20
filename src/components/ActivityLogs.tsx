@@ -47,17 +47,6 @@ const ActivityLogs = () => {
     return () => clearInterval(interval);
   }, [activeTab]);
 
-  const getDifficultyClass = (difficulty: string) => {
-    switch(difficulty) {
-      case 'Easy':
-        return 'bg-terminal-success/20 text-terminal-success';
-      case 'Medium':
-        return 'bg-terminal-warning/20 text-terminal-warning';
-      default:
-        return 'bg-terminal-error/20 text-terminal-error';
-    }
-  };
-
   return (
     <div className="terminal-window w-full max-w-3xl mx-auto h-full max-h-[80vh] flex flex-col">
       <div className="terminal-header">
@@ -140,9 +129,6 @@ const ActivityLogs = () => {
                     <div key={activity.id} className="border border-system-lightgray/30 rounded p-2">
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-bold">{activity.problem}</span>
-                        <span className={`text-xs px-2 py-1 rounded ${getDifficultyClass(activity.difficulty)}`}>
-                          {activity.difficulty}
-                        </span>
                       </div>
                       <div className="mt-1 text-xs flex justify-between">
                         <span className={activity.status === 'Accepted' ? 'text-terminal-success' : 'text-terminal-error'}>
