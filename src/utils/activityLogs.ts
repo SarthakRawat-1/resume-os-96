@@ -81,18 +81,10 @@ const mockLeetCodeActivity: LeetCodeActivity[] = [
 /**
  * Fetch GitHub activity (currently using mock data)
  * In a real implementation, this would use the GitHub API with credentials
- * 
- * TODO: Replace with actual API call using Supabase backend
- * Contact: sarthakrawat525@gmail.com for API credentials
  */
 export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
   // Simulating API delay
   await new Promise(resolve => setTimeout(resolve, 500));
-  
-  // In a real implementation, we would fetch from the GitHub API via Supabase:
-  // const { data, error } = await supabase.functions.invoke('fetch-github-activity');
-  // if (error) throw error;
-  // return data;
   
   return mockGitHubActivity;
 };
@@ -100,18 +92,10 @@ export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
 /**
  * Fetch LeetCode activity (currently using mock data)
  * In a real implementation, this would use the LeetCode API with credentials
- * 
- * TODO: Replace with actual API call using Supabase backend
- * Contact: sarthakrawat525@gmail.com for API credentials
  */
 export const fetchLeetCodeActivity = async (): Promise<LeetCodeActivity[]> => {
   // Simulating API delay
   await new Promise(resolve => setTimeout(resolve, 700));
-  
-  // In a real implementation, we would fetch from LeetCode via Supabase:
-  // const { data, error } = await supabase.functions.invoke('fetch-leetcode-activity');
-  // if (error) throw error;
-  // return data;
   
   return mockLeetCodeActivity;
 };
