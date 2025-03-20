@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -107,10 +106,6 @@ export default {
 					'0%': { transform: 'translateX(-20px)', opacity: '0' },
 					'100%': { transform: 'translateX(0)', opacity: '1' },
 				},
-				'overlay-show': {
-					'0%': { opacity: '0' },
-					'100%': { opacity: '0.8' },
-				},
 				'window-appear': {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' },
@@ -132,7 +127,6 @@ export default {
 				'boot-progress': 'boot-progress 3s ease-out forwards',
 				'fade-in-up': 'fade-in-up 0.4s ease-out forwards',
 				'slide-in': 'slide-in 0.3s ease-out forwards',
-				'overlay-show': 'overlay-show 0.3s ease-out forwards',
 				'window-appear': 'window-appear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
 				'window-disappear': 'window-disappear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
 				'glow-pulse': 'glow-pulse 2s infinite',
