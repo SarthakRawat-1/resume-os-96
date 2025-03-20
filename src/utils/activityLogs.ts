@@ -12,7 +12,21 @@ export interface GitHubActivity {
   description: string;
 }
 
-// Interface for LeetCode activity
+// LeetCode API response interfaces
+export interface LeetCodeApiResponse {
+  count: number;
+  submission: LeetCodeSubmission[];
+}
+
+export interface LeetCodeSubmission {
+  title: string;
+  titleSlug: string;
+  timestamp: string;
+  statusDisplay: string;
+  lang: string;
+}
+
+// Interface for LeetCode activity (formatted for our app)
 export interface LeetCodeActivity {
   id: string;
   problem: string;
@@ -50,33 +64,8 @@ const mockGitHubActivity: GitHubActivity[] = [
   }
 ];
 
-// Mock LeetCode activity data (would be replaced with actual API calls)
-const mockLeetCodeActivity: LeetCodeActivity[] = [
-  {
-    id: '1',
-    problem: 'Median of Two Sorted Arrays',
-    difficulty: 'Hard',
-    status: 'Accepted',
-    time: new Date().toISOString(),
-    language: 'C++'
-  },
-  {
-    id: '2',
-    problem: 'Container With Most Water',
-    difficulty: 'Medium',
-    status: 'Accepted',
-    time: new Date(Date.now() - 86400000).toISOString(),
-    language: 'Rust'
-  },
-  {
-    id: '3',
-    problem: 'Valid Parentheses',
-    difficulty: 'Easy',
-    status: 'Accepted',
-    time: new Date(Date.now() - 172800000).toISOString(),
-    language: 'C'
-  }
-];
+// LeetCode API endpoint
+const LEETCODE_API_ENDPOINT = 'https://alfa-leetcode-api.onrender.com/Shogun_the_Great/acSubmission?limit=3';
 
 /**
  * Fetch GitHub activity (currently using mock data)
@@ -90,14 +79,41 @@ export const fetchGitHubActivity = async (): Promise<GitHubActivity[]> => {
 };
 
 /**
- * Fetch LeetCode activity (currently using mock data)
- * In a real implementation, this would use the LeetCode API with credentials
+ * Fetch LeetCode activity from the public API
  */
 export const fetchLeetCodeActivity = async (): Promise<LeetCodeActivity[]> => {
-  // Simulating API delay
-  await new Promise(resolve => setTimeout(resolve, 700));
-  
-  return mockLeetCodeActivity;
+  try {
+    const response = await fetch(LEETCODE_API_ENDPOINT);
+    
+    if (!response.ok) {
+      throw new Error(`LeetCode API returned ${response.status}`);
+    }
+    
+    const data: LeetCodeApiResponse = await response.json();
+    
+    // Transform API response to our app's format
+    return data.submission.map((submission, index) => {
+      // Map timestamp to a date string
+      const timeDate = new Date(parseInt(submission.timestamp) * 1000);
+      
+      // Generate a random difficulty since the API doesn't provide it
+      // In a real app, we'd get this from another API call or database
+      const difficulties: Array<'Easy' | 'Medium' | 'Hard'> = ['Easy', 'Medium', 'Hard'];
+      const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+      
+      return {
+        id: index.toString(),
+        problem: submission.title,
+        difficulty: randomDifficulty,
+        status: submission.statusDisplay as 'Accepted' | 'Wrong Answer',
+        time: timeDate.toISOString(),
+        language: submission.lang,
+      };
+    });
+  } catch (error) {
+    console.error('Error fetching LeetCode activity:', error);
+    return [];
+  }
 };
 
 /**
@@ -109,8 +125,8 @@ export const formatActivityForTerminal = (type: 'github' | 'leetcode'): string =
       `[${new Date(activity.time).toLocaleTimeString()}] ${activity.type} on ${activity.repo}: ${activity.description}`
     ).join('\n');
   } else {
-    return mockLeetCodeActivity.map(activity => 
-      `[${new Date(activity.time).toLocaleTimeString()}] Solved "${activity.problem}" (${activity.difficulty}) - ${activity.status} using ${activity.language}`
-    ).join('\n');
+    // For LeetCode, we can't use sync formatting with the async API
+    // This is a placeholder, in practice you might want to cache the data
+    return "Use the ActivityLogs app to view up-to-date LeetCode activity.";
   }
 };

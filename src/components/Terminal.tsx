@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Terminal as TerminalIcon } from 'lucide-react';
-import { formatActivityForTerminal } from '../utils/activityLogs';
+import { formatActivityForTerminal, fetchLeetCodeActivity } from '../utils/activityLogs';
 
 const Terminal = () => {
   const [input, setInput] = useState('');
@@ -20,7 +20,7 @@ const Terminal = () => {
     setInput(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -54,8 +54,26 @@ const Terminal = () => {
     if (input.trim() === 'leetcode_activity') {
       setOutputs(prev => [
         ...prev, 
-        { type: 'output', content: `Recent LeetCode Activity:\n${formatActivityForTerminal('leetcode')}` }
+        { type: 'output', content: 'Fetching LeetCode activity...' }
       ]);
+
+      try {
+        const leetcodeData = await fetchLeetCodeActivity();
+        const formattedOutput = leetcodeData.map(activity => 
+          `[${new Date(activity.time).toLocaleTimeString()}] Solved "${activity.problem}" (${activity.difficulty}) - ${activity.status} using ${activity.language}`
+        ).join('\n');
+
+        setOutputs(prev => [
+          ...prev.slice(0, -1), // Remove the "Fetching..." message
+          { type: 'output', content: `Recent LeetCode Activity:\n${formattedOutput || 'No activity found.'}` }
+        ]);
+      } catch (error) {
+        setOutputs(prev => [
+          ...prev.slice(0, -1), // Remove the "Fetching..." message
+          { type: 'output', content: 'Error fetching LeetCode activity. Please try again later.' }
+        ]);
+      }
+      
       setInput('');
       return;
     }

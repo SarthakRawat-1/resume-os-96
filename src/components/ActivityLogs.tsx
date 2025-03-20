@@ -1,29 +1,39 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
-import { fetchGitHubActivity, fetchLeetCodeActivity, GitHubActivity, LeetCodeActivity } from '../utils/activityLogs';
-import { X, Minus, Square, Activity, Github, Code } from 'lucide-react';
+import { 
+  fetchGitHubActivity, 
+  fetchLeetCodeActivity, 
+  GitHubActivity, 
+  LeetCodeActivity 
+} from '../utils/activityLogs';
+import { X, Minus, Square, Activity, Github, Code, AlertCircle } from 'lucide-react';
 
 const ActivityLogs = () => {
   const [activeTab, setActiveTab] = useState<'github' | 'leetcode'>('github');
   const [githubActivity, setGithubActivity] = useState<GitHubActivity[]>([]);
   const [leetcodeActivity, setLeetcodeActivity] = useState<LeetCodeActivity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const { closeApp, minimizeApp } = useSystem();
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
+      setError(null);
+      
       try {
-        const [github, leetcode] = await Promise.all([
-          fetchGitHubActivity(),
-          fetchLeetCodeActivity()
-        ]);
-        setGithubActivity(github);
-        setLeetcodeActivity(leetcode);
-      } catch (error) {
-        console.error('Failed to fetch activity data:', error);
+        if (activeTab === 'github') {
+          const github = await fetchGitHubActivity();
+          setGithubActivity(github);
+        } else {
+          const leetcode = await fetchLeetCodeActivity();
+          setLeetcodeActivity(leetcode);
+        }
+      } catch (err) {
+        console.error('Failed to fetch activity data:', err);
+        setError(`Failed to load ${activeTab} activity data. Please try again later.`);
       } finally {
         setLoading(false);
       }
@@ -35,7 +45,18 @@ const ActivityLogs = () => {
     const interval = setInterval(loadData, 5 * 60 * 1000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [activeTab]);
+
+  const getDifficultyClass = (difficulty: string) => {
+    switch(difficulty) {
+      case 'Easy':
+        return 'bg-terminal-success/20 text-terminal-success';
+      case 'Medium':
+        return 'bg-terminal-warning/20 text-terminal-warning';
+      default:
+        return 'bg-terminal-error/20 text-terminal-error';
+    }
+  };
 
   return (
     <div className="terminal-window w-full max-w-3xl mx-auto h-full max-h-[80vh] flex flex-col">
@@ -84,6 +105,10 @@ const ActivityLogs = () => {
             <div className="flex justify-center items-center h-32">
               <div className="text-terminal-accent">Loading activity data...</div>
             </div>
+          ) : error ? (
+            <div className="flex justify-center items-center h-32 text-terminal-error">
+              <AlertCircle className="w-5 h-5 mr-2" /> {error}
+            </div>
           ) : activeTab === 'github' ? (
             <div className="space-y-4">
               <h3 className="text-terminal-accent font-bold text-sm">Recent GitHub Activity</h3>
@@ -115,11 +140,7 @@ const ActivityLogs = () => {
                     <div key={activity.id} className="border border-system-lightgray/30 rounded p-2">
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-bold">{activity.problem}</span>
-                        <span className={`text-xs px-2 py-1 rounded ${
-                          activity.difficulty === 'Easy' ? 'bg-terminal-success/20 text-terminal-success' :
-                          activity.difficulty === 'Medium' ? 'bg-terminal-warning/20 text-terminal-warning' :
-                          'bg-terminal-error/20 text-terminal-error'
-                        }`}>
+                        <span className={`text-xs px-2 py-1 rounded ${getDifficultyClass(activity.difficulty)}`}>
                           {activity.difficulty}
                         </span>
                       </div>
