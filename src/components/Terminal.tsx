@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Terminal as TerminalIcon } from 'lucide-react';
@@ -141,7 +142,7 @@ const Terminal = () => {
   };
 
   return (
-    <div className={`terminal-window w-full max-w-5xl mx-auto h-full max-h-[90vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`}>
+    <div className={`terminal-window w-full max-w-3xl mx-auto h-full max-h-[80vh] flex flex-col ${hackerMode ? 'hacker-mode' : ''}`}>
       <div className="terminal-header">
         <div className="flex space-x-2">
           <button 
