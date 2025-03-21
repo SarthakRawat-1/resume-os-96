@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useSystem } from '../context/SystemContext';
 import { X, Minus, Square, Mail, Github, Linkedin, Twitter, Send } from 'lucide-react';
+import emailjs from 'emailjs-com';
+import { toast } from 'sonner';
 
 const ContactMe = () => {
   const [activeTab, setActiveTab] = useState<'links' | 'message'>('links');
@@ -23,16 +25,32 @@ const ContactMe = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
     
-    // Simulate sending
-    setTimeout(() => {
-      setSending(false);
-      setSent(true);
+    try {
+      // Prepare template parameters
+      const templateParams = {
+        name: formState.name,
+        email: formState.email,
+        subject: formState.subject,
+        message: formState.message,
+        to_email: 'sarthakrawat525@gmail.com'
+      };
       
-      // Reset form
+      // Send email using EmailJS
+      await emailjs.send(
+        'service_xp1s0k6',
+        'template_ewaxrsn',
+        templateParams,
+        '9IPagkffYxrAiin7j'
+      );
+      
+      setSent(true);
+      toast.success('Message sent successfully!');
+      
+      // Reset form after a delay
       setTimeout(() => {
         setSent(false);
         setFormState({
@@ -42,7 +60,12 @@ const ContactMe = () => {
           message: ''
         });
       }, 3000);
-    }, 1500);
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      toast.error('Failed to send message. Please try again later.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -143,13 +166,13 @@ const ContactMe = () => {
                 </a>
                 
                 <a 
-                  href="mailto:your.email@example.com" 
+                  href="mailto:sarthakrawat525@gmail.com" 
                   className="bg-system-lightgray/20 hover:bg-system-lightgray/40 p-4 rounded flex items-center"
                 >
                   <Mail className="w-8 h-8 mr-4 text-terminal-accent" />
                   <div>
                     <div className="font-bold">Email</div>
-                    <div className="text-sm text-terminal-muted">your.email@example.com</div>
+                    <div className="text-sm text-terminal-muted">sarthakrawat525@gmail.com</div>
                   </div>
                 </a>
               </div>
