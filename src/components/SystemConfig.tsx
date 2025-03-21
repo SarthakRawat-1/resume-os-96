@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { useSystem } from '../context/SystemContext';
-import { X, Minus, Square, Settings, ExternalLink, Mail, Github, Linkedin, MapPin, Clock, Code } from 'lucide-react';
+import { X, Minus, Square, Settings, ExternalLink, Mail, Github, Linkedin, MapPin, Clock, Code, FileText } from 'lucide-react';
+import { Button } from './ui/button';
 
 const SystemConfig = () => {
   const { closeApp, minimizeApp } = useSystem();
@@ -28,6 +29,10 @@ const SystemConfig = () => {
       KERNEL: 'Experience v4.2.1',
       ARCHITECTURE: 'Full-Stack x64',
     }
+  };
+
+  const openResumePdf = () => {
+    window.open('/resume.pdf', '_blank');
   };
 
   return (
@@ -57,7 +62,18 @@ const SystemConfig = () => {
       </div>
       
       <div className="flex-1 overflow-auto p-6">
-        <h2 className="text-terminal-accent font-bold text-lg mb-6">/etc/resume.conf</h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-terminal-accent font-bold text-lg">/etc/resume.conf</h2>
+          <Button 
+            onClick={openResumePdf} 
+            variant="secondary" 
+            className="flex items-center gap-2"
+          >
+            <FileText className="w-4 h-4" />
+            Show Formal Resume
+            <ExternalLink className="w-3 h-3" />
+          </Button>
+        </div>
         
         <div className="grid grid-cols-1 gap-6">
           {/* Personal Information */}
